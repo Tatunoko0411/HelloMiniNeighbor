@@ -9,6 +9,8 @@ public class PlayerManager : MonoBehaviour
 
     Rigidbody2D rb;
 
+    [SerializeField] GameManager gameManager;
+
     public enum DIRECTION_TYPE
     {
         RIGHT,
@@ -17,13 +19,13 @@ public class PlayerManager : MonoBehaviour
     };
 
 
-    DIRECTION_TYPE direction;
+   public DIRECTION_TYPE direction;
     public float speed;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        direction = DIRECTION_TYPE.RIGHT;
+        direction = DIRECTION_TYPE.STOP;
     }
 
     // Update is called once per frame
@@ -49,6 +51,12 @@ public class PlayerManager : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if ((!gameManager.isStart))
+        {
+            rb.velocity = Vector3.zero;
+            return;
+        }
+
         if (direction == DIRECTION_TYPE.RIGHT)
         {
             rb.velocity = Vector2.right * speed;
@@ -57,6 +65,7 @@ public class PlayerManager : MonoBehaviour
         {
             rb .velocity = Vector2.left * speed;
         }
+        
 
         
     }
