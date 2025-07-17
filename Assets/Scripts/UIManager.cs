@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] UIObject DeleteBox;
 
+    [SerializeField] Text PointTex;
+
     float ObjBtnHidePosY = -7f;
     float ObjBtnShowPosY = -4f;
 
@@ -22,7 +25,7 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+       
     }
 
     // Update is called once per frame
@@ -106,5 +109,10 @@ public class UIManager : MonoBehaviour
               moveSpeed);
         }
 
+    }
+
+    public void ChangePointTex()
+    {
+        PointTex.text = $"残りポイント：{gameManager.point}";
     }
 }

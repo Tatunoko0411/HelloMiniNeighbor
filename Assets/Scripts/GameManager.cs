@@ -7,13 +7,17 @@ public class GameManager : MonoBehaviour
     public bool Draging = false;
 
     [SerializeField] PlayerManager playerManager;
+    [SerializeField] UIManager uiManager;
 
     public bool isStart;
+
+    public int point;
 
     // Start is called before the first frame update
     void Start()
     {
         isStart = false;
+        uiManager.ChangePointTex();
     }
 
     // Update is called once per frame
@@ -40,11 +44,23 @@ public class GameManager : MonoBehaviour
     {
         isStart=true;
         playerManager.direction = PlayerManager.DIRECTION_TYPE.RIGHT;
+        playerManager.rb.bodyType = RigidbodyType2D.Dynamic;
+        playerManager.LimBox.SetActive(false);
+;
     }
 
     public void StopGame()
     {
         isStart = false;
         playerManager.direction = PlayerManager.DIRECTION_TYPE.STOP;
+        playerManager.rb.bodyType = RigidbodyType2D.Static;
+        playerManager.LimBox.SetActive(true);
+        playerManager.transform.position = playerManager.StartPos;
+    }
+
+    public void changePoint(int value)
+    {
+        point += value;
+        uiManager.ChangePointTex();
     }
 }

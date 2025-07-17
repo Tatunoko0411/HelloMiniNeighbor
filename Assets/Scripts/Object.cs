@@ -5,7 +5,7 @@ using static PlayerManager;
 
 public class Object : MonoBehaviour
 {
-    public int point;
+    public int cost;
 
     bool isDelete;
     
@@ -93,6 +93,10 @@ public class Object : MonoBehaviour
             if(isDelete)
             {
                 Destroy(this.gameObject);
+                
+                gameManager.changePoint(cost);
+                enabled = false;
+                return;
             }
         }
     }

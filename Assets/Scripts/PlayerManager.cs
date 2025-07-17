@@ -7,9 +7,13 @@ public class PlayerManager : MonoBehaviour
 {
     [SerializeField] LayerMask blockLayer;
 
-    Rigidbody2D rb;
+    public Rigidbody2D rb;
 
     [SerializeField] GameManager gameManager;
+
+    [SerializeField] public GameObject LimBox;
+
+    public Vector2 StartPos;
 
     public enum DIRECTION_TYPE
     {
@@ -25,6 +29,7 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        rb.bodyType = RigidbodyType2D.Static;
         direction = DIRECTION_TYPE.STOP;
     }
 
@@ -37,12 +42,12 @@ public class PlayerManager : MonoBehaviour
             if (direction == DIRECTION_TYPE.RIGHT)
             {
                 direction = DIRECTION_TYPE.LEFT;
-                transform.localScale = new Vector3(-0.27f, 0.27f, 0.27f);
+               
             }
             else if (direction == DIRECTION_TYPE.LEFT)
             {
                 direction= DIRECTION_TYPE.RIGHT;
-                transform.localScale = new Vector3(0.27f, 0.27f, 0.27f);
+               
 
             }
         }
@@ -59,11 +64,13 @@ public class PlayerManager : MonoBehaviour
 
         if (direction == DIRECTION_TYPE.RIGHT)
         {
-            rb.velocity = Vector2.right * speed;
+            rb.velocity = new Vector2(speed,rb.velocity.y);
+            transform.localScale = new Vector3(-0.27f, 0.27f, 0.27f);
         }
         else if (direction == DIRECTION_TYPE.LEFT)
         {
-            rb .velocity = Vector2.left * speed;
+            rb .velocity = new Vector2(-speed, rb.velocity.y);
+            transform.localScale = new Vector3(0.27f, 0.27f, 0.27f);
         }
         
 
