@@ -17,6 +17,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] Text PointTex;
 
+    [SerializeField] GameObject ClearUI;
+
     float ObjBtnHidePosY = -7f;
     float ObjBtnShowPosY = -4f;
 
@@ -26,6 +28,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
        
+        ClearUI.SetActive(false);
     }
 
     // Update is called once per frame
@@ -114,5 +117,10 @@ public class UIManager : MonoBehaviour
     public void ChangePointTex()
     {
         PointTex.text = $"残りポイント：{gameManager.point}";
+    }
+
+    public void SetClearUI()
+    {
+        ClearUI.SetActive(true);
     }
 }

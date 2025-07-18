@@ -65,12 +65,12 @@ public class PlayerManager : MonoBehaviour
         if (direction == DIRECTION_TYPE.RIGHT)
         {
             rb.velocity = new Vector2(speed,rb.velocity.y);
-            transform.localScale = new Vector3(-0.27f, 0.27f, 0.27f);
+            transform.localScale = new Vector3(0.27f, 0.27f, 0.27f);
         }
         else if (direction == DIRECTION_TYPE.LEFT)
         {
             rb .velocity = new Vector2(-speed, rb.velocity.y);
-            transform.localScale = new Vector3(0.27f, 0.27f, 0.27f);
+            transform.localScale = new Vector3(-0.27f, 0.27f, 0.27f);
         }
         
 
@@ -105,4 +105,14 @@ public class PlayerManager : MonoBehaviour
         return Physics2D.Linecast(UpStartpoint, BasePos, blockLayer)
             || Physics2D.Linecast(DownStartpoint, BasePos, blockLayer);
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "goal")
+        {
+            Debug.Log("ÉSÅ[Éã");
+            gameManager.isClear = true;
+        }
+    }
+
 }

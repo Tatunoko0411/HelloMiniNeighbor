@@ -33,7 +33,7 @@ public class ObjectButtonManager : MonoBehaviour
             button.interactable = false;
             eventTrigger.enabled = false;
         }
-        if (gameManager.point > Cost)
+        if (gameManager.point >= Cost)
         {
             button.interactable = true;
             eventTrigger.enabled = true;
