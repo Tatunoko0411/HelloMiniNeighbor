@@ -15,6 +15,11 @@ public class PlayerManager : MonoBehaviour
 
     public Vector2 StartPos;
 
+    public float JumpPower;//ジャンプの強さ
+    public float JumpSpeedLate;//ジャンプの推進力
+
+    public float MaxSpeed;
+
     public enum DIRECTION_TYPE
     {
         RIGHT,
@@ -51,10 +56,31 @@ public class PlayerManager : MonoBehaviour
 
             }
         }
-        
+
+        if(isGlound())
+        {
+            move();
+        }
+
+        if (rb.velocity.x >= MaxSpeed)
+        {
+            rb.velocity = new Vector2(MaxSpeed, rb.velocity.y);
+
+        }
+        if (rb.velocity.x <= -MaxSpeed)
+        {
+            rb.velocity = new Vector2(-MaxSpeed, rb.velocity.y);
+
+        }
+        if (rb.velocity.y <= -22)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, -22);
+
+        }
+
     }
 
-    private void FixedUpdate()
+    private void move()
     {
         if ((!gameManager.isStart))
         {
@@ -62,19 +88,24 @@ public class PlayerManager : MonoBehaviour
             return;
         }
 
+       // float SpLate = speed -(rb.velocity.x / speed);
+
         if (direction == DIRECTION_TYPE.RIGHT)
         {
-            rb.velocity = new Vector2(speed,rb.velocity.y);
+            rb.AddForce(new Vector2(speed, 0));
             transform.localScale = new Vector3(0.27f, 0.27f, 0.27f);
         }
         else if (direction == DIRECTION_TYPE.LEFT)
         {
-            rb .velocity = new Vector2(-speed, rb.velocity.y);
+            //rb.velocity = new Vector2(rb.velocity.x - (speed * SpLate), rb.velocity.y);
+
+            rb.AddForce(new Vector2(-speed, 0));
             transform.localScale = new Vector3(-0.27f, 0.27f, 0.27f);
         }
-        
 
-        
+        //rb.velocity = new Vector2(rb.velocity.x - rb.velocity.x * 0.05f, rb.velocity.y);
+
+    
     }
 
     public bool isWall()
@@ -106,6 +137,29 @@ public class PlayerManager : MonoBehaviour
             || Physics2D.Linecast(DownStartpoint, BasePos, blockLayer);
     }
 
+    private bool isGlound()
+    {
+        Vector3 BasePos = new Vector3(transform.position.x , transform.position.y - 1f, transform.position.z);
+        Vector3 UpStartpoint = BasePos + Vector3.left * 0.1f;
+        Vector3 DownStartpoint = BasePos + Vector3.right * 0.1f;
+        Vector3 EndPos = BasePos + Vector3.down * 0.05f;
+
+
+        Debug.DrawLine(UpStartpoint, EndPos);
+        Debug.DrawLine(DownStartpoint, EndPos);
+
+        return Physics2D.Linecast(UpStartpoint, EndPos, blockLayer)
+            || Physics2D.Linecast(DownStartpoint, EndPos, blockLayer);
+    }
+
+    public void Jump()
+    {
+       // rb.velocity = Vector3.zero;
+        rb.AddForce(Vector3.up * JumpPower);
+
+        rb.AddForce(new Vector3(rb.velocity.x*JumpSpeedLate, 0f,0));
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.tag == "goal")
@@ -113,6 +167,17 @@ public class PlayerManager : MonoBehaviour
             Debug.Log("ゴール");
             gameManager.isClear = true;
         }
+
+        if(collision.gameObject.tag == "water")
+        {
+            rb.velocity = Vector3.zero;
+        }
+
+        if (collision.gameObject.tag == "JumpPad")
+        {
+            Jump();
+        }
+
     }
 
 }

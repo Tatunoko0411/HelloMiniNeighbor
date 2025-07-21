@@ -7,6 +7,7 @@ TagManager:
   - DeleteBox
   - goal
   - water
+  - JumpPad
   layers:
   - Default
   - TransparentFX
