@@ -8,6 +8,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] LayerMask blockLayer;
 
     public Rigidbody2D rb;
+    CapsuleCollider2D capsuleCollider2D;
 
     [SerializeField] GameManager gameManager;
 
@@ -19,6 +20,8 @@ public class PlayerManager : MonoBehaviour
     public float JumpSpeedLate;//ÉWÉÉÉìÉvÇÃêÑêióÕ
 
     public float MaxSpeed;
+
+    public bool isDead;//éÄñSîªíË
 
     public enum DIRECTION_TYPE
     {
@@ -36,11 +39,15 @@ public class PlayerManager : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Static;
         direction = DIRECTION_TYPE.STOP;
+        isDead = false;
+        capsuleCollider2D = GetComponent<CapsuleCollider2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        //éÄñSéûÇÕçsìÆÇ≈Ç´Ç»Ç¢
+        if(isDead) return;
 
         if(isWall())
         {
@@ -154,10 +161,34 @@ public class PlayerManager : MonoBehaviour
 
     public void Jump()
     {
-       // rb.velocity = Vector3.zero;
+       rb.velocity = Vector3.zero;
         rb.AddForce(Vector3.up * JumpPower);
 
-        rb.AddForce(new Vector3(rb.velocity.x*JumpSpeedLate, 0f,0));
+        rb.AddForce(new Vector3(speed*JumpSpeedLate, 0f,0));
+    }
+
+    public void StartPlayer()
+    {
+        direction = PlayerManager.DIRECTION_TYPE.RIGHT;
+       rb.bodyType = RigidbodyType2D.Dynamic;
+        LimBox.SetActive(false);
+        capsuleCollider2D.enabled = true;
+    }
+
+    public void StopPlayer()
+    {
+        direction = PlayerManager.DIRECTION_TYPE.STOP;
+        rb.bodyType = RigidbodyType2D.Static;
+        LimBox.SetActive(true);
+        transform.position = StartPos;
+        isDead = false;
+    }
+
+    public void Dead()
+    {
+        Debug.Log("éÄñS");
+        capsuleCollider2D.enabled = false;
+        isDead = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -178,6 +209,11 @@ public class PlayerManager : MonoBehaviour
             Jump();
         }
 
+        if (collision.gameObject.tag == "Trap")
+        {
+            Dead();
+            
+        }
     }
 
 }

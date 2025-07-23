@@ -5,6 +5,7 @@ using static PlayerManager;
 
 public class Object : MonoBehaviour
 {
+    static float outlineDistance = 0.075f;//判定の外側に対する距離
     public int cost;
 
     bool isDelete;
@@ -91,8 +92,8 @@ public class Object : MonoBehaviour
         }
         else
         {
-            if(isDelete)
-            {
+            if(isDelete && !isFixed)
+            {//常設オブジェクトは削除されない
                 Destroy(this.gameObject);
                 
                 gameManager.changePoint(cost);
@@ -126,7 +127,7 @@ public class Object : MonoBehaviour
     {
         SpriteRenderer sqSr = GetComponent<SpriteRenderer>();
 
-        Vector3 BasePos = new Vector3(transform.position.x + (sqSr.bounds.size.x / 2)+ 0.1f, transform.position.y, transform.position.z);
+        Vector3 BasePos = new Vector3(transform.position.x + (sqSr.bounds.size.x / 2)+ outlineDistance, transform.position.y, transform.position.z);
         Vector3 UpStartpoint = new Vector3(BasePos.x,BasePos.y + (sqSr.bounds.size.y / 2.2f),BasePos.z);
         Vector3 DownStartpoint = new Vector3(BasePos.x, BasePos.y - (sqSr.bounds.size.y / 2.2f), BasePos.z);
 
@@ -140,7 +141,7 @@ public class Object : MonoBehaviour
     public bool isLeft() {
         SpriteRenderer sqSr = GetComponent<SpriteRenderer>();
 
-        Vector3 BasePos = new Vector3(transform.position.x - (sqSr.bounds.size.x / 2) - 0.1f, transform.position.y, transform.position.z);
+        Vector3 BasePos = new Vector3(transform.position.x - (sqSr.bounds.size.x / 2) - outlineDistance, transform.position.y, transform.position.z);
         Vector3 UpStartpoint = new Vector3(BasePos.x, BasePos.y + (sqSr.bounds.size.y / 2.2f), BasePos.z);
         Vector3 DownStartpoint = new Vector3(BasePos.x, BasePos.y - (sqSr.bounds.size.y / 2.2f), BasePos.z);
 
@@ -154,7 +155,7 @@ public class Object : MonoBehaviour
     public bool isUp() {
         SpriteRenderer sqSr = GetComponent<SpriteRenderer>();
 
-        Vector3 BasePos = new Vector3(transform.position.x, transform.position.y + (sqSr.bounds.size.y / 2) + 0.1f, transform.position.z);
+        Vector3 BasePos = new Vector3(transform.position.x, transform.position.y + (sqSr.bounds.size.y / 2) + outlineDistance, transform.position.z);
         Vector3 RightStartpoint = new Vector3(BasePos.x + (sqSr.bounds.size.x / 2.2f), BasePos.y , BasePos.z);
         Vector3 LeftStartpoint = new Vector3(BasePos.x - (sqSr.bounds.size.x / 2.2f), BasePos.y, BasePos.z);
 
@@ -169,7 +170,7 @@ public class Object : MonoBehaviour
         SpriteRenderer sqSr = GetComponent<SpriteRenderer>();
 
 
-        Vector3 BasePos = new Vector3(transform.position.x, transform.position.y - (sqSr.bounds.size.y / 2) - 0.1f, transform.position.z);
+        Vector3 BasePos = new Vector3(transform.position.x, transform.position.y - (sqSr.bounds.size.y / 2) - outlineDistance, transform.position.z);
         Vector3 RightStartpoint = new Vector3(BasePos.x + (sqSr.bounds.size.x / 2.2f), BasePos.y, BasePos.z);
         Vector3 LeftStartpoint = new Vector3(BasePos.x - (sqSr.bounds.size.x / 2.2f), BasePos.y, BasePos.z);
 

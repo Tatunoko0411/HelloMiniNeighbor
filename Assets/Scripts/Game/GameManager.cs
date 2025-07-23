@@ -52,19 +52,14 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         isStart=true;
-        playerManager.direction = PlayerManager.DIRECTION_TYPE.RIGHT;
-        playerManager.rb.bodyType = RigidbodyType2D.Dynamic;
-        playerManager.LimBox.SetActive(false);
-;
+        playerManager.StartPlayer();
+
     }
 
     public void StopGame()
     {
         isStart = false;
-        playerManager.direction = PlayerManager.DIRECTION_TYPE.STOP;
-        playerManager.rb.bodyType = RigidbodyType2D.Static;
-        playerManager.LimBox.SetActive(true);
-        playerManager.transform.position = playerManager.StartPos;
+        playerManager.StopPlayer();
     }
 
     public void changePoint(int value)
