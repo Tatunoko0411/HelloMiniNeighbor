@@ -7,26 +7,36 @@ public class BlackHole : MonoBehaviour
     public float lenge;
 
     GameObject player;
+
+    Object obj;
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.Find("Player");
+        obj = GetComponent<Object>();
+
+        if (!obj.CreateMode)
+        {
+            player = GameObject.Find("Player");
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-       float distance = Vector2.Distance(transform.position, player.transform.position); 
-
-        float power = lenge - distance;
-
-        if (power < 0)
+        if (!obj.CreateMode)
         {
-            power = 0;
-        }
+            float distance = Vector2.Distance(transform.position, player.transform.position);
 
-        player.transform.position = Vector2.MoveTowards(player.transform.position,
-           transform.position,
-           power*Time.deltaTime);
+            float power = lenge - distance;
+
+            if (power < 0)
+            {
+                power = 0;
+            }
+
+            player.transform.position = Vector2.MoveTowards(player.transform.position,
+               transform.position,
+               power * Time.deltaTime);
+        }
     }
 }

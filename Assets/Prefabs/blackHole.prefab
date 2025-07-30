@@ -119,6 +119,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   isDrag: 0
+  SetButtonID: 0
+  CreateMode: 0
 --- !u!50 &5062483465257321951
 Rigidbody2D:
   serializedVersion: 4
@@ -134,7 +136,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -178,6 +180,6 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.006169617, y: 0}
   serializedVersion: 2
-  m_Radius: 0.09774363
+  m_Radius: 0.49260455

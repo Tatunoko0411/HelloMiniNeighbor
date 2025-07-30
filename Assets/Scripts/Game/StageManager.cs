@@ -36,7 +36,7 @@ public class StageManager : MonoBehaviour
     {
         for(int i = 0; i < ButtonObjIDList.Count; i++) {
         
-            ButtonList[i].GetComponent<ObjectButtonManager>().PopObject 
+            ButtonList[i].GetComponent<ObjectButtonManager>().PopObjectPrefab 
                 = ObjectList[ButtonObjIDList[i]-1].GetComponent<Object>() ;
         }
     }

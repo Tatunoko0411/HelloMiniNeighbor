@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ObjectButtonManager : MonoBehaviour
@@ -11,40 +12,86 @@ public class ObjectButtonManager : MonoBehaviour
     Button button;
     public int Cost;
 
-    public Object PopObject;
+    public int ID;
+
+    public Object PopObjectPrefab;
+
+    public bool CreateMode;//クリエイトモードかどうか
     // Start is called before the first frame update
     void Start()
     {
-
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        if (!CreateMode)
+        {
+            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        }
         eventTrigger = GetComponent<EventTrigger>();
         button = GetComponent<Button>();
 
-        Cost = PopObject.cost;
+        Cost = PopObjectPrefab.cost;
 
+       
         SetEvent();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(gameManager.point < Cost)
+        if (!CreateMode)
         {
-            button.interactable = false;
-            eventTrigger.enabled = false;
-        }
-        if (gameManager.point >= Cost)
-        {
-            button.interactable = true;
-            eventTrigger.enabled = true;
+
+
+            if (gameManager.point < Cost)
+            {
+                button.interactable = false;
+                eventTrigger.enabled = false;
+            }
+            if (gameManager.point >= Cost)
+            {
+                button.interactable = true;
+                eventTrigger.enabled = true;
+            }
         }
     }
 
     public void SetEvent()
     {
-        EventTrigger.Entry entry = new EventTrigger.Entry();
-        entry.eventID = EventTriggerType.PointerDown;
-        entry.callback.AddListener((eventDate) => { gameManager.PopObject(PopObject); gameManager.changePoint(-Cost); });
-        eventTrigger.triggers.Add(entry);
+        if (CreateMode)
+        {
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            entry.eventID = EventTriggerType.PointerDown;
+            entry.callback.AddListener((eventDate) => { PopObject(PopObjectPrefab);});
+            eventTrigger.triggers.Add(entry);
+        }
+        else
+        {
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            entry.eventID = EventTriggerType.PointerDown;
+            entry.callback.AddListener((eventDate) => {PopObject(PopObjectPrefab); gameManager.changePoint(-Cost); });
+            eventTrigger.triggers.Add(entry);
+        }
     }
+
+
+    public void PopObject(Object obj)
+    {
+        Vector2 mousePos = Input.mousePosition;
+
+        Vector2 worldPos = Camera.main.ScreenToWorldPoint(new Vector2(mousePos.x, mousePos.y));
+
+        GameObject PopObject = Instantiate(obj.gameObject, worldPos, Quaternion.identity);
+
+        Object popObj = PopObject.GetComponent<Object>();
+        popObj.isDrag = true;
+
+        if (gameManager != null)
+        {
+            gameManager.Draging = true;
+        }
+        else
+        {
+            popObj.CreateMode = true;
+        }
+    }
+
 }

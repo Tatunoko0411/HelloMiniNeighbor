@@ -18,15 +18,21 @@ public class Bee : MonoBehaviour
     Vector3 startPosition; // 開始時点のオブジェクトの位置
     float speed;
 
-
+    Object obj;
     // Start is called before the first frame update
     void Start()
     {
+        obj = GetComponent<Object>();
+
         direction = DIRECTION_TYPE.TOP;
 
         startPosition = transform.position;
 
-        Move();
+        if (!obj.CreateMode)
+        {
+
+            Move();
+        }
     }
 
     // Update is called once per frame

@@ -36,19 +36,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void PopObject(Object obj)
-    {
-        Vector2 mousePos = Input.mousePosition;
-
-        Vector2 worldPos = Camera.main.ScreenToWorldPoint(new Vector2(mousePos.x, mousePos.y));
-
-        GameObject PopObject = Instantiate(obj.gameObject, worldPos,Quaternion.identity);
-
-        Object popObj = PopObject.GetComponent<Object>(); 
-        popObj.isDrag = true;
-        Draging = true;
-    }
-
+ 
     public void StartGame()
     {
         isStart=true;

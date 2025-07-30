@@ -11,11 +11,18 @@ public class faucet : MonoBehaviour
     public float waitTime;
 
    public GameManager gameManager;
+    Object obj;
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        StartCoroutine(dropWater());
+        obj = GetComponent<Object>();
+
+        if (!obj.CreateMode)
+        {
+            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+            StartCoroutine(dropWater());
+        }
         
     }
 

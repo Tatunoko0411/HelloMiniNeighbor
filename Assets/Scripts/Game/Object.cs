@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static PlayerManager;
 
 public class Object : MonoBehaviour
@@ -17,19 +19,37 @@ public class Object : MonoBehaviour
     public bool isDrag;
 
     Rigidbody2D rb;
+
+    /// ステージクリエイト系
+    public int SetButtonID;
+    StageCreateManager stageCreateManager;
+    public bool CreateMode;
+
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();   
+
+        if (CreateMode)
+        {
+            stageCreateManager = GameObject.Find("StageCreateManager").GetComponent<StageCreateManager>();
+        }
+        else
+        {
+            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (gameManager.isStart )
-        {//ゲーム実行中は移動させない
-            return;
+        if (!CreateMode)
+        {
+            if (gameManager.isStart)
+            {//ゲーム実行中は移動させない
+                return;
+            }
         }
         isRight();
         isLeft();
@@ -39,7 +59,10 @@ public class Object : MonoBehaviour
         {
             isDrag = false;
             rb.bodyType = RigidbodyType2D.Static;
-            gameManager.Draging = false;
+            if (!CreateMode)
+            {
+                gameManager.Draging = false;
+            }
         }
 
         if (isDrag)
@@ -95,10 +118,21 @@ public class Object : MonoBehaviour
             if(isDelete && !isFixed)
             {//常設オブジェクトは削除されない
                 Destroy(this.gameObject);
-                
-                gameManager.changePoint(cost);
+
+                if (!CreateMode)
+                {
+                    gameManager.changePoint(cost);
+                }
                 enabled = false;
                 return;
+            }
+
+            if(stageCreateManager != null)
+            {
+                if(SetButtonID>0)
+                {
+                    stageCreateManager.ButtonList[SetButtonID].PopObjectPrefab = this;
+                }
             }
         }
     }
@@ -111,14 +145,21 @@ public class Object : MonoBehaviour
         }
         isDrag = true;
         rb.bodyType = RigidbodyType2D.Dynamic;
-        gameManager.Draging = true;
+        if (!CreateMode)
+        {
+            gameManager.Draging = true;
+        }
     }
 
     private void OnMouseUp()
     {
         isDrag = false;
         rb.bodyType = RigidbodyType2D.Static;
-        gameManager.Draging = false;
+
+        if (!CreateMode)
+        {
+            gameManager.Draging = false;
+        }
 
  
     }
@@ -189,6 +230,14 @@ public class Object : MonoBehaviour
          
         }
 
+        if(collision.gameObject.tag == "Button")
+        {
+            if(stageCreateManager != null)
+            {
+                SetButtonID = collision.gameObject.GetComponent<ObjectButtonManager>().ID;
+            }
+        }
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -197,6 +246,11 @@ public class Object : MonoBehaviour
         {
             isDelete = false;
             
+        }
+
+        if (collision.gameObject.tag == "Button")
+        {
+            SetButtonID = 0;
         }
     }
 
