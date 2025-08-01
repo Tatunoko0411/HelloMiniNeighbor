@@ -1,3 +1,4 @@
+using Assets.Scripts.Game;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -7,6 +8,8 @@ using static PlayerManager;
 
 public class Object : MonoBehaviour
 {
+    public int id;
+
     static float outlineDistance = 0.075f;//判定の外側に対する距離
     public int cost;
 
@@ -21,15 +24,17 @@ public class Object : MonoBehaviour
     Rigidbody2D rb;
 
     /// ステージクリエイト系
-    public int SetButtonID;
+    public int SetButtonID = -1;
     StageCreateManager stageCreateManager;
     public bool CreateMode;
+    private int StageObjectID;
 
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        SetButtonID = -1;
 
         if (CreateMode)
         {
@@ -39,6 +44,8 @@ public class Object : MonoBehaviour
         {
             gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         }
+
+
     }
 
     // Update is called once per frame
@@ -62,6 +69,21 @@ public class Object : MonoBehaviour
             if (!CreateMode)
             {
                 gameManager.Draging = false;
+            }
+            else if (CreateMode)
+            {
+                if (StageObjectID == 0)
+                {
+                    StageObjectID = stageCreateManager.StageObjectList.Count + 1;
+
+                    stageCreateManager.StageObjectList.Add(new StageObject(StageObjectID,
+                        transform.position.x,
+                        transform.position.y,
+                        transform.rotation.z));
+
+     
+                }
+
             }
         }
 
@@ -127,13 +149,16 @@ public class Object : MonoBehaviour
                 return;
             }
 
-            if(stageCreateManager != null)
+            if(CreateMode)
             {
-                if(SetButtonID>0)
+                if(SetButtonID>=0)
                 {
-                    stageCreateManager.ButtonList[SetButtonID].PopObjectPrefab = this;
+                    stageCreateManager.ButtonList[SetButtonID].PopObjectPrefab
+                        = stageCreateManager.ObjectList[id].GetComponent<Object>();
+                    Destroy(this.gameObject);   
                 }
             }
+
         }
     }
 
@@ -161,7 +186,26 @@ public class Object : MonoBehaviour
             gameManager.Draging = false;
         }
 
- 
+        if (StageObjectID == 0)
+        {
+            StageObjectID = stageCreateManager.StageObjectList.Count + 1;
+
+            stageCreateManager.StageObjectList.Add(new StageObject(StageObjectID,
+                transform.position.x,
+                transform.position.y,
+                transform.rotation.z));
+
+        }
+        else
+        {
+            stageCreateManager.StageObjectList[StageObjectID - 1].Xpos = transform.position.x;
+            stageCreateManager.StageObjectList[StageObjectID - 1].Ypos = transform.position.y;
+            stageCreateManager.StageObjectList[StageObjectID - 1].Rot = transform.rotation.z;
+
+
+
+        }
+
     }
 
     public bool isRight()
@@ -235,7 +279,11 @@ public class Object : MonoBehaviour
             if(stageCreateManager != null)
             {
                 SetButtonID = collision.gameObject.GetComponent<ObjectButtonManager>().ID;
+
+                Debug.Log(SetButtonID);
             }
+
+            Debug.Log(SetButtonID);
         }
 
     }
@@ -250,7 +298,7 @@ public class Object : MonoBehaviour
 
         if (collision.gameObject.tag == "Button")
         {
-            SetButtonID = 0;
+            SetButtonID = -1;
         }
     }
 

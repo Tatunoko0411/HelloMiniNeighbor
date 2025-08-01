@@ -1,3 +1,4 @@
+using Assets.Scripts.Game;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,9 +11,11 @@ public class StageCreateManager : MonoBehaviour
 
 
     [SerializeField] public List<ObjectButtonManager> ButtonList;
-    [SerializeField] List<GameObject> ObjectList;
+    [SerializeField] public List<GameObject> ObjectList;
 
     public List<int> ButtonObjIDList;
+
+    public List<StageObject> StageObjectList = new List<StageObject>();
 
     [SerializeField] public GameObject ObjButtonPrefab;
 

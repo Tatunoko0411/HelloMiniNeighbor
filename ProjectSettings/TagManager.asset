@@ -9,6 +9,7 @@ TagManager:
   - water
   - JumpPad
   - Trap
+  - Button
   layers:
   - Default
   - TransparentFX

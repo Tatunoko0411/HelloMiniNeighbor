@@ -23,11 +23,12 @@ public class ObjectButtonManager : MonoBehaviour
         if (!CreateMode)
         {
             gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            Cost = PopObjectPrefab.cost;
         }
         eventTrigger = GetComponent<EventTrigger>();
         button = GetComponent<Button>();
 
-        Cost = PopObjectPrefab.cost;
+
 
        
         SetEvent();

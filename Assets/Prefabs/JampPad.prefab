@@ -134,12 +134,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a0d29c592bea7a45a648cf7e4bfac11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 1
   cost: 200
   isFixed: 0
   ObjectLayer:
     serializedVersion: 2
     m_Bits: 8
   isDrag: 0
+  SetButtonID: -1
+  CreateMode: 0
 --- !u!50 &-4080907131583329019
 Rigidbody2D:
   serializedVersion: 4
