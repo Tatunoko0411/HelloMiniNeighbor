@@ -197,6 +197,8 @@ public class PlayerManager : MonoBehaviour
         {
             Debug.Log("ÉSÅ[Éã");
             gameManager.isClear = true;
+            rb.velocity = Vector3.zero; 
+            enabled = false;
         }
 
         if(collision.gameObject.tag == "water")

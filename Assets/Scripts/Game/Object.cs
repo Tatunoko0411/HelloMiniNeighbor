@@ -21,7 +21,7 @@ public class Object : MonoBehaviour
 
     public bool isDrag;
 
-    Rigidbody2D rb;
+   public Rigidbody2D rb;
 
     /// ステージクリエイト系
     public int SetButtonID = -1;
@@ -186,24 +186,29 @@ public class Object : MonoBehaviour
             gameManager.Draging = false;
         }
 
-        if (StageObjectID == 0)
+        if (CreateMode)
         {
-            StageObjectID = stageCreateManager.StageObjectList.Count + 1;
-
-            stageCreateManager.StageObjectList.Add(new StageObject(StageObjectID,
-                transform.position.x,
-                transform.position.y,
-                transform.rotation.z));
-
-        }
-        else
-        {
-            stageCreateManager.StageObjectList[StageObjectID - 1].Xpos = transform.position.x;
-            stageCreateManager.StageObjectList[StageObjectID - 1].Ypos = transform.position.y;
-            stageCreateManager.StageObjectList[StageObjectID - 1].Rot = transform.rotation.z;
 
 
+            if (StageObjectID == 0)
+            {
+                StageObjectID = stageCreateManager.StageObjectList.Count + 1;
 
+                stageCreateManager.StageObjectList.Add(new StageObject(StageObjectID,
+                    transform.position.x,
+                    transform.position.y,
+                    transform.rotation.z));
+
+            }
+            else
+            {
+                stageCreateManager.StageObjectList[StageObjectID - 1].Xpos = transform.position.x;
+                stageCreateManager.StageObjectList[StageObjectID - 1].Ypos = transform.position.y;
+                stageCreateManager.StageObjectList[StageObjectID - 1].Rot = transform.rotation.z;
+
+
+
+            }
         }
 
     }
@@ -268,6 +273,8 @@ public class Object : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
+
         if (collision.gameObject.tag == "DeleteBox")
         {
             isDelete = true;

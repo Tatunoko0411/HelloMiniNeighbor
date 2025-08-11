@@ -76,6 +76,9 @@ public class ObjectButtonManager : MonoBehaviour
 
     public void PopObject(Object obj)
     {
+        if(obj == null)
+        { return; }
+
         Vector2 mousePos = Input.mousePosition;
 
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(new Vector2(mousePos.x, mousePos.y));
@@ -85,6 +88,10 @@ public class ObjectButtonManager : MonoBehaviour
         Object popObj = PopObject.GetComponent<Object>();
         popObj.isDrag = true;
 
+        Rigidbody2D rigidbody = PopObject.GetComponent<Rigidbody2D>();
+        rigidbody.bodyType = RigidbodyType2D.Dynamic;
+
+
         if (gameManager != null)
         {
             gameManager.Draging = true;
@@ -93,6 +100,8 @@ public class ObjectButtonManager : MonoBehaviour
         {
             popObj.CreateMode = true;
         }
+
+ 
     }
 
 }
