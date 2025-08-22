@@ -51,6 +51,8 @@ public class Object : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    
+
         if (!CreateMode)
         {
             if (gameManager.isStart)
@@ -58,10 +60,7 @@ public class Object : MonoBehaviour
                 return;
             }
         }
-        isRight();
-        isLeft();
-        isUp();
-        isDown();
+
         if (!Input.GetMouseButton(0))
         {
             isDrag = false;
@@ -76,7 +75,7 @@ public class Object : MonoBehaviour
                 {
                     StageObjectID = stageCreateManager.StageObjectList.Count + 1;
 
-                    stageCreateManager.StageObjectList.Add(new StageObject(StageObjectID,
+                    stageCreateManager.StageObjectList.Add(new StageObject(id,
                         transform.position.x,
                         transform.position.y,
                         transform.rotation.z));
@@ -155,7 +154,16 @@ public class Object : MonoBehaviour
                 {
                     stageCreateManager.ButtonList[SetButtonID].PopObjectPrefab
                         = stageCreateManager.ObjectList[id].GetComponent<Object>();
-                    Destroy(this.gameObject);   
+        
+
+                   
+                    //if(stageCreateManager.ButtonObjIDList[SetButtonID] == 0)
+                    //{
+                    //    stageCreateManager.ButtonObjIDList[SetButtonID] = stageCreateManager.ObjectList[id].GetComponent<Object>().id;
+                    //}
+                    stageCreateManager.ButtonObjIDList[SetButtonID] = stageCreateManager.ObjectList[id].GetComponent<Object>().id;
+
+                    Destroy(this.gameObject);
                 }
             }
 
@@ -188,13 +196,14 @@ public class Object : MonoBehaviour
 
         if (CreateMode)
         {
+            if(id == 999) { return; }
 
 
             if (StageObjectID == 0)
             {
                 StageObjectID = stageCreateManager.StageObjectList.Count + 1;
 
-                stageCreateManager.StageObjectList.Add(new StageObject(StageObjectID,
+                stageCreateManager.StageObjectList.Add(new StageObject(id,
                     transform.position.x,
                     transform.position.y,
                     transform.rotation.z));

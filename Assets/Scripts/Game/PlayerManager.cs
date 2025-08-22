@@ -23,6 +23,8 @@ public class PlayerManager : MonoBehaviour
 
     public bool isDead;//€–S”»’è
 
+    public bool createMode;
+
     public enum DIRECTION_TYPE
     {
         RIGHT,
@@ -46,8 +48,16 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (createMode)
+        {
+            transform.position = LimBox.transform.position;
+        
+            return;
+        }
+
         //€–S‚Ís“®‚Å‚«‚È‚¢
-        if(isDead) return;
+        if (isDead) return;
 
         if(isWall())
         {
@@ -89,6 +99,8 @@ public class PlayerManager : MonoBehaviour
 
     private void move()
     {
+
+
         if ((!gameManager.isStart))
         {
             rb.velocity = Vector3.zero;
