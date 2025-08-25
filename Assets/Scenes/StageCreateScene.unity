@@ -1714,6 +1714,7 @@ MonoBehaviour:
   - {fileID: 7665914568238424581, guid: a52a813b07d90db40abf4040d8b95de2, type: 3}
   - {fileID: 2923802802389245572, guid: 81baa2f46d00fe640930f140fdca6046, type: 3}
   - {fileID: 4736731668026001956, guid: 1c33317642d2b4c43941da39c7de332a, type: 3}
+  - {fileID: 4040357361639335625, guid: 83aa6e451b09c9b42b51544fec106341, type: 3}
   ButtonObjIDList: 
   ObjButtonPrefab: {fileID: 715390548667528695, guid: 0df768195b2ca0146aba17e10aca374f, type: 3}
   ParentButtonObj: {fileID: 1875505252}
@@ -3779,7 +3780,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7567463676985890006}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:

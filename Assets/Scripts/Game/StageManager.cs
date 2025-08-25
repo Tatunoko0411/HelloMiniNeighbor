@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+//他のスクリプトよりも読み込みを優先させる
 [DefaultExecutionOrder(-5)]
 
 public class StageManager : MonoBehaviour
@@ -34,10 +35,30 @@ public class StageManager : MonoBehaviour
 
     public void SetButtons()
     {
-        for(int i = 0; i < ButtonObjIDList.Count; i++) {
-        
-            ButtonList[i].GetComponent<ObjectButtonManager>().PopObjectPrefab 
-                = ObjectList[ButtonObjIDList[i]-1].GetComponent<Object>() ;
+        for (int i = 0; i < ButtonObjIDList.Count; i++)
+        {
+            ObjectButtonManager manager = ButtonList[i].GetComponent<ObjectButtonManager>();
+
+            manager.PopObjectPrefab
+                = ObjectList[ButtonObjIDList[i]].GetComponent<Object>();
+
+            manager.Cost = ObjectList[ButtonObjIDList[i]].GetComponent<Object>().cost;
+
+            manager.SetEvent();
+
+        }
+
+        for (int i = 0; i < ButtonList.Count; i++)
+        {
+
+            ObjectButtonManager manager = ButtonList[i].GetComponent<ObjectButtonManager>();
+
+            if (manager.PopObjectPrefab == null)
+            {
+                Destroy(ButtonList[i].gameObject);
+                ButtonList.Remove(ButtonList[i]);
+                i--;
+            }
         }
     }
 

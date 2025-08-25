@@ -17,21 +17,20 @@ public class ObjectButtonManager : MonoBehaviour
     public Object PopObjectPrefab;
 
     public bool CreateMode;//クリエイトモードかどうか
+  
     // Start is called before the first frame update
     void Start()
     {
+
+
         if (!CreateMode)
         {
             gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-            Cost = PopObjectPrefab.cost;
+          
         }
+
         eventTrigger = GetComponent<EventTrigger>();
         button = GetComponent<Button>();
-
-
-
-       
-        SetEvent();
         
     }
 
@@ -57,6 +56,7 @@ public class ObjectButtonManager : MonoBehaviour
 
     public void SetEvent()
     {
+        eventTrigger = GetComponent<EventTrigger>();
         if (CreateMode)
         {
             EventTrigger.Entry entry = new EventTrigger.Entry();
@@ -66,6 +66,8 @@ public class ObjectButtonManager : MonoBehaviour
         }
         else
         {
+
+
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerDown;
             entry.callback.AddListener((eventDate) => {PopObject(PopObjectPrefab); gameManager.changePoint(-Cost); });

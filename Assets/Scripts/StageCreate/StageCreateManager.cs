@@ -146,7 +146,7 @@ result =>
 
     public void StorePlayerPos()
     {
-
+        //プレイヤーはID99でオブジェクト化
         StageObject player = new StageObject(99,PlayerPos.position.x,PlayerPos.position.y,0);
 
         StartCoroutine(NetworkManager.Instance.RegistStageObject(
@@ -167,7 +167,7 @@ result =>
 
     public void StoreGoalPos()
     {
-
+        //ゴールはID100でオブジェクト化
         StageObject Goal = new StageObject(100, GoalPos.position.x, GoalPos.position.y, 0);
 
         StartCoroutine(NetworkManager.Instance.RegistStageObject(

@@ -241,6 +241,105 @@ RegistStageRequest requestData = new RegistStageRequest();
         }
         result?.Invoke(isSuccess); //ここで呼び出し元のresult処理を呼び出す
     }
+
+    //ステージ情報取得
+    public IEnumerator GetStages( Action<bool> result)
+    {
+
+
+        //送信
+        UnityWebRequest request = UnityWebRequest.Get(
+                    API_BASE_URL + "stages/index");
+
+        yield return request.SendWebRequest();
+        bool isSuccess = false;
+        if (request.result == UnityWebRequest.Result.Success
+            && request.responseCode == 200)
+        {
+            string resultJson = request.downloadHandler.text;
+           List< GetStageResponse> response = JsonConvert.DeserializeObject<List<GetStageResponse>>(resultJson);
+
+            CustomStageSelectManager manager = GameObject.FindObjectOfType<CustomStageSelectManager>();
+
+            foreach ( GetStageResponse responseItem in response )
+            {
+                manager.customStages.Add(new CustomStageDate(
+                    responseItem.ID,
+                    responseItem.UserID,
+                    responseItem.Name,
+                    responseItem.Point,
+                    responseItem.playTime,
+                    responseItem.clearTime));
+            }
+         
+
+            isSuccess = true;
+        }
+        result?.Invoke(isSuccess); //ここで呼び出し元のresult処理を呼び出す
+    }
+
+    public IEnumerator GetStageObjects(int stageID,Action<bool> result)
+    {
+
+
+        //送信
+        UnityWebRequest request = UnityWebRequest.Get(
+                    API_BASE_URL + "stages/object/get/" + stageID);
+
+        yield return request.SendWebRequest();
+        bool isSuccess = false;
+        if (request.result == UnityWebRequest.Result.Success
+            && request.responseCode == 200)
+        {
+            string resultJson = request.downloadHandler.text;
+            List<GetStageObjectResponse> response = JsonConvert.DeserializeObject<List<GetStageObjectResponse>>(resultJson);
+
+            CustomStageGameManager manager = GameObject.FindObjectOfType<CustomStageGameManager>();
+
+            foreach (GetStageObjectResponse responseItem in response)
+            {
+                manager.StageObjects.Add(new StageObject(
+                    responseItem.ObjectID,
+                    responseItem.X,
+                    responseItem.Y,
+                    responseItem.Rot));
+            }
+
+
+            isSuccess = true;
+        }
+        result?.Invoke(isSuccess); //ここで呼び出し元のresult処理を呼び出す
+    }
+
+    public IEnumerator GetStageButtons(int stageID, Action<bool> result)
+    {
+
+
+        //送信
+        UnityWebRequest request = UnityWebRequest.Get(
+                    API_BASE_URL + "stages/button/get/" + stageID);
+
+        yield return request.SendWebRequest();
+        bool isSuccess = false;
+        if (request.result == UnityWebRequest.Result.Success
+            && request.responseCode == 200)
+        {
+            string resultJson = request.downloadHandler.text;
+            List<GetButtonResponse> response = JsonConvert.DeserializeObject<List<GetButtonResponse>>(resultJson);
+
+            CustomStageGameManager manager = GameObject.FindObjectOfType<CustomStageGameManager>();
+
+            foreach (GetButtonResponse responseItem in response)
+            {
+              manager.ButtonObjIDList.Add(responseItem.ObjectID);
+            }
+
+
+            isSuccess = true;
+        }
+        result?.Invoke(isSuccess); //ここで呼び出し元のresult処理を呼び出す
+    }
+
     // Start is called before the first frame update
     void Start()
     {

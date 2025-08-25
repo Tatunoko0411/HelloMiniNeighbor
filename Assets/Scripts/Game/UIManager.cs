@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField]StageManager stageManager;
     [SerializeField] GameManager gameManager;
+    [SerializeField] CustomStageGameManager customManager;
 
     [SerializeField] UIObject StartButton;
     [SerializeField] UIObject StopButton;
@@ -24,6 +25,8 @@ public class UIManager : MonoBehaviour
 
     float moveSpeed = 0.2f;
 
+    public bool isCustom = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +37,33 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!isCustom)
+        {
+            UpdateNormalUI();
+        }
 
+        if (isCustom)
+        {
+            UpdateCustomUI();
+        }
+
+
+    }
+
+    public void ChangePointTex()
+    {
+
+            PointTex.text = $"残りポイント：{gameManager.point}";
+        
+    }
+
+    public void SetClearUI()
+    {
+        ClearUI.SetActive(true);
+    }
+
+    public void UpdateNormalUI()
+    {
         if (gameManager.isStart)
         {
             foreach (GameObject button in stageManager.ButtonList)
@@ -73,7 +102,7 @@ public class UIManager : MonoBehaviour
 
         if (gameManager.Draging)
         {
-           foreach (GameObject button in stageManager.ButtonList)
+            foreach (GameObject button in stageManager.ButtonList)
             {
                 button.transform.position = Vector2.MoveTowards(
                button.transform.position,
@@ -81,10 +110,10 @@ public class UIManager : MonoBehaviour
                moveSpeed);
             }
 
-           StartButton.transform.position = Vector2.MoveTowards(
-               StartButton.transform.position,
-               StartButton.HidePos,
-               moveSpeed);
+            StartButton.transform.position = Vector2.MoveTowards(
+                StartButton.transform.position,
+                StartButton.HidePos,
+                moveSpeed);
 
             DeleteBox.transform.position = Vector2.MoveTowards(
                DeleteBox.transform.position,
@@ -111,16 +140,85 @@ public class UIManager : MonoBehaviour
               DeleteBox.HidePos,
               moveSpeed);
         }
-
     }
 
-    public void ChangePointTex()
+    public void UpdateCustomUI()
     {
-        PointTex.text = $"残りポイント：{gameManager.point}";
-    }
+        if (gameManager.isStart)
+        {
+            foreach (GameObject button in customManager.ButtonList)
+            {
+                button.transform.position = Vector2.MoveTowards(
+               button.transform.position,
+               new Vector2(button.transform.position.x, ObjBtnHidePosY),
+               moveSpeed);
+            }
 
-    public void SetClearUI()
-    {
-        ClearUI.SetActive(true);
+            StartButton.transform.position = Vector2.MoveTowards(
+                StartButton.transform.position,
+                StartButton.HidePos,
+                moveSpeed);
+
+            StopButton.transform.position = Vector2.MoveTowards(
+              StopButton.transform.position,
+              StopButton.SetPos,
+              moveSpeed);
+
+            DeleteBox.transform.position = Vector2.MoveTowards(
+               DeleteBox.transform.position,
+               DeleteBox.HidePos,
+               moveSpeed);
+
+            return;
+        }
+        else if (!gameManager.isStart)
+        {
+
+            StopButton.transform.position = Vector2.MoveTowards(
+              StopButton.transform.position,
+              StopButton.HidePos,
+              moveSpeed);
+        }
+
+        if (gameManager.Draging)
+        {
+            foreach (GameObject button in customManager.ButtonList)
+            {
+                button.transform.position = Vector2.MoveTowards(
+               button.transform.position,
+               new Vector2(button.transform.position.x, ObjBtnHidePosY),
+               moveSpeed);
+            }
+
+            StartButton.transform.position = Vector2.MoveTowards(
+                StartButton.transform.position,
+                StartButton.HidePos,
+                moveSpeed);
+
+            DeleteBox.transform.position = Vector2.MoveTowards(
+               DeleteBox.transform.position,
+               DeleteBox.SetPos,
+               moveSpeed);
+        }
+        else
+        {
+            foreach (GameObject button in customManager.ButtonList)
+            {
+                button.transform.position = Vector2.MoveTowards(
+               button.transform.position,
+               new Vector2(button.transform.position.x, ObjBtnShowPosY),
+               moveSpeed);
+            }
+
+            StartButton.transform.position = Vector2.MoveTowards(
+             StartButton.transform.position,
+             StartButton.SetPos,
+             moveSpeed);
+
+            DeleteBox.transform.position = Vector2.MoveTowards(
+              DeleteBox.transform.position,
+              DeleteBox.HidePos,
+              moveSpeed);
+        }
     }
 }

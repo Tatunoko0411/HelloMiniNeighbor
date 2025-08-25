@@ -10,6 +10,7 @@ TagManager:
   - JumpPad
   - Trap
   - Button
+  - Bubble
   layers:
   - Default
   - TransparentFX

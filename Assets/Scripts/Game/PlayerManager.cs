@@ -101,11 +101,6 @@ public class PlayerManager : MonoBehaviour
     {
 
 
-        if ((!gameManager.isStart))
-        {
-            rb.velocity = Vector3.zero;
-            return;
-        }
 
        // float SpLate = speed -(rb.velocity.x / speed);
 
@@ -183,6 +178,7 @@ public class PlayerManager : MonoBehaviour
     {
         direction = PlayerManager.DIRECTION_TYPE.RIGHT;
        rb.bodyType = RigidbodyType2D.Dynamic;
+        rb.velocity = new Vector3(0.5f, 0f, 0f);
         LimBox.SetActive(false);
         capsuleCollider2D.enabled = true;
     }
@@ -218,6 +214,7 @@ public class PlayerManager : MonoBehaviour
             rb.velocity = Vector3.zero;
         }
 
+
         if (collision.gameObject.tag == "JumpPad")
         {
             Jump();
@@ -227,6 +224,15 @@ public class PlayerManager : MonoBehaviour
         {
             Dead();
             
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+
+        if (collision.gameObject.tag == "Bubble")
+        {//ñAÇÃíÜÇ…Ç¢ÇÈéûÇÕïΩçsà⁄ìÆÇÃÇ›
+            rb.velocity = new Vector2(rb.velocity.x, 0);
         }
     }
 

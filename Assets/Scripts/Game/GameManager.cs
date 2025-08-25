@@ -7,8 +7,9 @@ public class GameManager : MonoBehaviour
 {
     public bool Draging = false;
 
-    [SerializeField] PlayerManager playerManager;
+    [SerializeField]public PlayerManager playerManager;
     [SerializeField] UIManager uiManager;
+    [SerializeField]public GameObject GoalObj;
     
     public bool isStart;
 
@@ -64,5 +65,10 @@ public class GameManager : MonoBehaviour
     public void MoveStageSelect()
     {
         Initiate.Fade("StageSelectScene", Color.black, 1.0f);
+    }
+
+    public void MoveCustomStageSelect()
+    {
+        Initiate.Fade("CustomStageSelectScene", Color.black, 1.0f);
     }
 }
