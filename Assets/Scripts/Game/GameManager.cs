@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public bool Draging = false;
 
     [SerializeField]public PlayerManager playerManager;
-    [SerializeField] UIManager uiManager;
+    [SerializeField]public UIManager uiManager;
     [SerializeField]public GameObject GoalObj;
     
     public bool isStart;

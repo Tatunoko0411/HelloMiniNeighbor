@@ -20,4 +20,14 @@ public class TitleManager : MonoBehaviour
     {
         Initiate.Fade("StageSelectScene", Color.black, 1.0f);
     }
+
+    public void MoveCustomStageSelect()
+    {
+        Initiate.Fade("CustomStageSelectScene", Color.black, 1.0f);
+    }
+
+    public void MoveCreate()
+    {
+        Initiate.Fade("StageCreateScene", Color.black, 1.0f);
+    }
 }

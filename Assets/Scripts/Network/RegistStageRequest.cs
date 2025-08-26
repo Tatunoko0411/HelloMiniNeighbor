@@ -16,5 +16,8 @@ using System.Threading.Tasks;
 
     [JsonProperty("name")]
     public string Name { get; set; }
+
+    [JsonProperty("point")]
+    public int Point { get; set; }
 }
 

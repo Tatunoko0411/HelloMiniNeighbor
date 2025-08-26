@@ -188,12 +188,13 @@ public class NetworkManager : MonoBehaviour
 
 
     //ステージ登録
-    public IEnumerator RegistStage(string  name, Action<bool> result)
+    public IEnumerator RegistStage(string  name,int point, Action<bool> result)
     {
         //サーバーに送信するオブジェクトを作成
 RegistStageRequest requestData = new RegistStageRequest();
         requestData.Name = name;
         requestData.UserID = userID;
+        requestData.Point = point;
         //サーバーに送信するオブジェクトをJSONに変換
         string json = JsonConvert.SerializeObject(requestData);
 

@@ -19,12 +19,15 @@ public class StageManager : MonoBehaviour
         new StageObject(1,-7,-3,0), new StageObject(1,8,-3,0)
     };
 
-
+    public bool createMode;
     // Start is called before the first frame update
     void Start()
     {
-        SetButtons();
-        SetObject();
+        if (!createMode)
+        {
+            SetButtons();
+            SetObject();
+        }
     }
 
     // Update is called once per frame
@@ -37,6 +40,10 @@ public class StageManager : MonoBehaviour
     {
         for (int i = 0; i < ButtonObjIDList.Count; i++)
         {
+            if(ButtonObjIDList[i] < 0)
+            {
+                continue;
+            }
             ObjectButtonManager manager = ButtonList[i].GetComponent<ObjectButtonManager>();
 
             manager.PopObjectPrefab

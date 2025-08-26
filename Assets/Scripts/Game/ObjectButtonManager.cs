@@ -29,6 +29,11 @@ public class ObjectButtonManager : MonoBehaviour
           
         }
 
+        if (CreateMode)
+        {
+            SetEvent();
+        }
+
         eventTrigger = GetComponent<EventTrigger>();
         button = GetComponent<Button>();
         

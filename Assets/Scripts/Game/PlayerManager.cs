@@ -199,6 +199,26 @@ public class PlayerManager : MonoBehaviour
         isDead = true;
     }
 
+    //ƒvƒŒƒCƒ„[‚Ì‰Šú‰»
+    public void InitPlayer()
+    {
+        if (createMode == false)
+        {
+            CapsuleCollider2D capsule = GetComponent<CapsuleCollider2D>();
+            capsule.enabled = true;
+
+            rb.gravityScale = 1f;
+        }
+        else if (createMode == true)
+        {
+            CapsuleCollider2D capsule = GetComponent<CapsuleCollider2D>();
+            capsule.enabled = false;
+
+            rb.gravityScale = 0f;
+        }
+
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.tag == "goal")

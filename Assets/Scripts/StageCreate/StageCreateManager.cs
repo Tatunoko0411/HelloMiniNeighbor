@@ -13,6 +13,7 @@ public class StageCreateManager : MonoBehaviour
     public List<Object> PutObjects;//設置しているオブジェクト情報
 
     [SerializeField] public InputField inputStageName;
+    [SerializeField] public InputField inputPoint;
     [SerializeField] public List<ObjectButtonManager> ButtonList;
     [SerializeField] public List<GameObject> ObjectList;
 
@@ -28,8 +29,17 @@ public class StageCreateManager : MonoBehaviour
 
     public int StageId;
 
+    public int StartPoint;
+
     [SerializeField] public Transform PlayerPos;
     [SerializeField] public Transform GoalPos;
+    
+    
+    [SerializeField]public GameManager gameManager;
+    [SerializeField]public StageManager stageManager;
+
+    [SerializeField] GameObject CreateObject;
+    [SerializeField] GameObject GameObjects;
 
 
     // Start is called before the first frame update
@@ -72,11 +82,76 @@ public class StageCreateManager : MonoBehaviour
         }
     }
 
+    public void SetTryStage()
+    {
+        stageManager.StageObjects = new List<StageObject>();
+        stageManager.ButtonObjIDList = new List<int>();
+
+       
+
+        foreach (StageObject obj in StageObjectList)
+        {
+            stageManager.StageObjects.Add(obj);
+        }
+
+        foreach(int Id in ButtonObjIDList)
+        {
+           stageManager.ButtonObjIDList.Add(Id);
+        }
+
+
+
+        CreateObject.SetActive(false);
+        GameObjects.SetActive(true);
+
+        SetFixed();
+
+        stageManager.SetButtons();
+        gameManager.playerManager.createMode = false;
+        gameManager.playerManager.StartPos = PlayerPos.position;
+        gameManager.playerManager.InitPlayer();
+
+        gameManager.point = StartPoint;
+        gameManager.uiManager.ChangePointTex();
+    }
+
+    public void BackStageCreate()
+    {
+        CreateObject.SetActive(true);
+        GameObjects.SetActive(false);
+
+        gameManager.playerManager.createMode = true;
+        gameManager.playerManager.InitPlayer();
+
+        RemoveFixed();
+    }
+
+    public void RemoveFixed()
+    {
+        Object[] gameObjects = GameObject.FindObjectsOfType<Object>();
+
+        foreach (Object obj in gameObjects)
+        {
+            obj.isFixed = false;
+        }
+    }
+
+    public void SetFixed()
+    {
+        Object[] gameObjects = GameObject.FindObjectsOfType<Object>();
+
+        foreach (Object obj in gameObjects)
+        {
+            obj.isFixed = true;
+        }
+    }
+
     public void StageCreate()
     {
 
         StartCoroutine(NetworkManager.Instance.RegistStage(
             SetStageName, //名前
+            StartPoint,
 result =>
 {                          //登録終了後の処理
     if (result == true)
@@ -189,6 +264,17 @@ result =>
     public void ChangeStageName()
     {
         SetStageName = inputStageName.text;
-        Debug.Log(SetStageName);
+       
+    }
+
+    public void ChangePoint()
+    {
+        StartPoint = int.Parse(inputPoint.text);
+        Debug.Log(StartPoint);
+    }
+
+    public void BackTitleScene()
+    {
+        Initiate.Fade("TitleScene", Color.black, 1.0f);
     }
 }

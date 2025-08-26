@@ -10,8 +10,8 @@ using UnityEngine;
 public class CustomStageGameManager : MonoBehaviour
 {
 
-    static public int StageId = 14;
-    static public int StartPoint = 1000;
+    static public int StageId = 0;
+    static public int StartPoint = 0;
 
     [SerializeField] public List<GameObject> ButtonList;
     [SerializeField] List<GameObject> ObjectList;
