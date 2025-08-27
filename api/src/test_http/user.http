@@ -1,0 +1,103 @@
+### ユーザー情報取得
+GET  http://localhost:8000/api/users/1
+Accept:  application/json
+
+### ユーザー一覧取得(Level)
+GET  http://localhost:8000/
+    api/users/index
+Accept:  application/json
+
+### ユーザー登録
+POST http://localhost:8000/api/users/store
+Content-Type: application/json
+Accept: application/json
+
+{
+    "name": "amanda",
+    "level": 10,
+    "EXP": 1000
+}
+
+### ユーザー更新
+POST http://localhost:8000/api/users/update
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer 1|oayZIq6SZxnBucXFX4HrYyFqRny4xrcYfzcgTCzlce90e214
+
+{
+    "name": "amanda",
+    "level": 999,
+    "EXP": 0
+}
+
+### ユーザー情報更新
+POST http://localhost:8000/api/userDetails/update
+Content-Type: application/json
+Accept: application/json
+
+{
+    "user_id": 1,
+    "level": 101,
+    "EXP": 100000000
+}
+
+### アイテム取得
+POST http://localhost:8000/api/items/get
+Content-Type: application/json
+Accept: application/json
+
+{
+    "user_id": 1,
+    "item_id": 1,
+    "amount": 100
+}
+
+### アイテム使用
+POST http://localhost:8000/api/items/use
+Content-Type: application/json
+Accept: application/json
+
+{
+    "user_id": 1,
+    "item_id": 1,
+    "amount": 100
+}
+
+### ステージ作成
+POST http://localhost:8000/api/stages/store
+Content-Type: application/json
+Accept: application/json
+
+{
+    "user_id": 99,
+    "name": "test000"
+}
+
+### ステージオブジェクト登録
+POST http://localhost:8000/api/stages/object/store
+Content-Type: application/json
+Accept: application/json
+
+{
+    "stage_id": 1,
+    "x": -4.2,
+    "y": 5.5,
+    "rot": 0,
+    "object_id": 2
+}
+
+### ステージオブジェクト登録
+GET http://localhost:8000/api/stages/object/get/1
+Accept: application/json
+
+### ステージ情報取得
+GET http://localhost:8000/api/stages/index
+Accept: application/json
+
+### ステージオブジェクト情報取得
+GET http://localhost:8000/api/stages/object/get/
+Accept: application/json
+
+### ステージボタン情報取得
+GET http://localhost:8000/api/stages/button/get/
+Accept: application/json
