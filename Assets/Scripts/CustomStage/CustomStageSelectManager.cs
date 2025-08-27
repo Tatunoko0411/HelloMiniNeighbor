@@ -58,5 +58,10 @@ public class CustomStageSelectManager : MonoBehaviour
         }
     }
 
+    public void BackTitle()
+    {
+        Initiate.Fade("TitleScene", Color.black, 1.0f);
+    }
+
 }
 

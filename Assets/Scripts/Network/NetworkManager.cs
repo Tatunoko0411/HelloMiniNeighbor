@@ -65,8 +65,6 @@ public class NetworkManager : MonoBehaviour
         //サーバーに送信するオブジェクトを作成
         RegistUserRequest requestData = new RegistUserRequest();
         requestData.Name = name;
-        requestData.Level = 1;
-        requestData.Exp = 1;
         //サーバーに送信するオブジェクトをJSONに変換
         string json = JsonConvert.SerializeObject(requestData);
 

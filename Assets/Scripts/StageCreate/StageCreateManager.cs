@@ -64,6 +64,7 @@ public class StageCreateManager : MonoBehaviour
     void Update()
     {
 
+
     }
 
     public void SetObjectButton()
@@ -177,6 +178,11 @@ result =>
         {
             Debug.Log(obj.ObjectId);
 
+            if(obj.ObjectId == 999)
+            {
+                continue;
+            }
+
             StartCoroutine(NetworkManager.Instance.RegistStageObject(
           obj,StageId,           //名前
     result =>
@@ -222,7 +228,7 @@ result =>
     public void StorePlayerPos()
     {
         //プレイヤーはID99でオブジェクト化
-        StageObject player = new StageObject(99,PlayerPos.position.x,PlayerPos.position.y,0);
+        StageObject player = new StageObject(99, gameManager.playerManager.StartPos.x, gameManager.playerManager.StartPos.y,0);
 
         StartCoroutine(NetworkManager.Instance.RegistStageObject(
           player, StageId,           //名前

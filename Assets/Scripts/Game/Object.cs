@@ -71,16 +71,21 @@ public class Object : MonoBehaviour
             }
             else if (CreateMode)
             {
-                if (StageObjectID == 0)
+                if (SetButtonID < 0)
                 {
-                    StageObjectID = stageCreateManager.StageObjectList.Count + 1;
+                    if (StageObjectID == 0)
+                    {
+                        StageObjectID = stageCreateManager.StageObjectList.Count + 1;
 
-                    stageCreateManager.StageObjectList.Add(new StageObject(id,
-                        transform.position.x,
-                        transform.position.y,
-                        transform.rotation.z));
+                        stageCreateManager.StageObjectList.Add(new StageObject(id,
+                            transform.position.x,
+                            transform.position.y,
+                            transform.rotation.z));
 
-     
+                        Debug.Log("オブジェクトが新しく設置されました");
+
+
+                    }
                 }
 
             }
@@ -198,26 +203,39 @@ public class Object : MonoBehaviour
         {
             if(id == 999) { return; }
 
-
-            if (StageObjectID == 0)
+            if (SetButtonID < 0)
             {
-                StageObjectID = stageCreateManager.StageObjectList.Count + 1;
 
-                stageCreateManager.StageObjectList.Add(new StageObject(id,
-                    transform.position.x,
-                    transform.position.y,
-                    transform.rotation.z));
+                if (StageObjectID == 0)
+                {
+                    StageObjectID = stageCreateManager.StageObjectList.Count + 1;
 
+                    stageCreateManager.StageObjectList.Add(new StageObject(id,
+                        transform.position.x,
+                        transform.position.y,
+                        transform.rotation.z));
+
+                    Debug.Log("オブジェクトが新しく設置されました");
+                }
+                else
+                {
+                    stageCreateManager.StageObjectList[StageObjectID - 1].Xpos = transform.position.x;
+                    stageCreateManager.StageObjectList[StageObjectID - 1].Ypos = transform.position.y;
+                    stageCreateManager.StageObjectList[StageObjectID - 1].Rot = transform.rotation.z;
+
+
+
+                }
             }
             else
             {
-                stageCreateManager.StageObjectList[StageObjectID - 1].Xpos = transform.position.x;
-                stageCreateManager.StageObjectList[StageObjectID - 1].Ypos = transform.position.y;
-                stageCreateManager.StageObjectList[StageObjectID - 1].Rot = transform.rotation.z;
-
-
-
+                if (StageObjectID != 0)
+                {
+                    stageCreateManager.StageObjectList.Remove(stageCreateManager.StageObjectList[StageObjectID - 1]);
+                    Debug.Log("オブジェクトが削除されました");
+                }
             }
+
         }
 
     }
