@@ -88,6 +88,10 @@ public class Object : MonoBehaviour
                     }
                 }
 
+               
+               
+                    stageCreateManager.Draging = false;
+                
             }
         }
 
@@ -141,7 +145,7 @@ public class Object : MonoBehaviour
         }
         else
         {
-            if(isDelete && !isFixed)
+            if(isDelete && !isFixed &&id != 999)
             {//常設オブジェクトは削除されない
                 Destroy(this.gameObject);
 
@@ -149,6 +153,15 @@ public class Object : MonoBehaviour
                 {
                     gameManager.changePoint(cost);
                 }
+                else
+                {
+                    if (StageObjectID != 0)
+                    {
+                        stageCreateManager.StageObjectList.Remove(stageCreateManager.StageObjectList[StageObjectID - 1]);
+                        Debug.Log("オブジェクトが削除されました");
+                    }
+                }
+
                 enabled = false;
                 return;
             }
@@ -187,6 +200,10 @@ public class Object : MonoBehaviour
         {
             gameManager.Draging = true;
         }
+        else
+        {
+            stageCreateManager.Draging = true ;
+        }
     }
 
     private void OnMouseUp()
@@ -197,6 +214,10 @@ public class Object : MonoBehaviour
         if (!CreateMode)
         {
             gameManager.Draging = false;
+        }
+        else
+        {
+            stageCreateManager.Draging = false;
         }
 
         if (CreateMode)

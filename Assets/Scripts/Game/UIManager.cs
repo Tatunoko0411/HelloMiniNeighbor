@@ -30,23 +30,23 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
-        ClearUI.SetActive(false);
+
+            ClearUI.SetActive(false);
+      
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!isCustom)
+        if (!isCustom )
         {
             UpdateNormalUI();
         }
 
-        if (isCustom)
+        if (isCustom )
         {
             UpdateCustomUI();
         }
-
 
     }
 
@@ -221,4 +221,6 @@ public class UIManager : MonoBehaviour
               moveSpeed);
         }
     }
+
+ 
 }

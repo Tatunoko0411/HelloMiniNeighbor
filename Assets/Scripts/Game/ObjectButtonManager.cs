@@ -90,7 +90,7 @@ public class ObjectButtonManager : MonoBehaviour
 
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(new Vector2(mousePos.x, mousePos.y));
 
-        GameObject PopObject = Instantiate(obj.gameObject, worldPos, Quaternion.identity);
+        GameObject PopObject = Instantiate(obj.gameObject, worldPos, obj.gameObject.transform.rotation);
 
         Object popObj = PopObject.GetComponent<Object>();
         popObj.isDrag = true;
@@ -106,6 +106,8 @@ public class ObjectButtonManager : MonoBehaviour
         else
         {
             popObj.CreateMode = true;
+            StageCreateManager  manager = GameObject.FindAnyObjectByType<StageCreateManager>();
+            manager.Draging = true;
         }
 
  

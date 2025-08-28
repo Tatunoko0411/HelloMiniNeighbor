@@ -41,6 +41,7 @@ public class StageCreateManager : MonoBehaviour
     [SerializeField] GameObject CreateObject;
     [SerializeField] GameObject GameObjects;
 
+    public bool Draging;
 
     // Start is called before the first frame update
     void Start()
