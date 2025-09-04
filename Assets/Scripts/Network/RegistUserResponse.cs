@@ -12,6 +12,6 @@ public class RegistUserResponse
     }
 
 
-    [JsonProperty("apiToken")]
+    [JsonProperty("token")]
     public string APIToken { get; set; }
 }

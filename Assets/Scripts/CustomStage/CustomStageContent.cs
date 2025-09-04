@@ -24,6 +24,7 @@ public class CustomStageContent : MonoBehaviour
         
     }
 
+    //ステージ遷移
     public void loadStage()
     {
         CustomStageGameManager.StageId = stageId;

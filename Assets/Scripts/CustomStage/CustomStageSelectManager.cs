@@ -22,6 +22,7 @@ public class CustomStageSelectManager : MonoBehaviour
         
     }
 
+    //ステージ情報の取得
     public void GetStages()
     {
         StartCoroutine(NetworkManager.Instance.GetStages(          //名前
@@ -39,6 +40,7 @@ public class CustomStageSelectManager : MonoBehaviour
   }));
     }
 
+    //ステージ選択のオブジェクトを設置
     public void SetStageContents()
     {
         foreach (CustomStageDate date in customStages)
@@ -58,6 +60,7 @@ public class CustomStageSelectManager : MonoBehaviour
         }
     }
 
+    //タイトル遷移
     public void BackTitle()
     {
         Initiate.Fade("TitleScene", Color.black, 1.0f);

@@ -38,6 +38,7 @@ public class CustomStageGameManager : MonoBehaviour
 
     }
 
+    //ボタンにオブジェクト情報を設定
     public void SetButtons()
     {
         for (int i = 0; i < ButtonObjIDList.Count; i++)
@@ -49,6 +50,7 @@ public class CustomStageGameManager : MonoBehaviour
 
             manager.Cost = ObjectList[ButtonObjIDList[i]].GetComponent<Object>().cost;
 
+            //イベントを追加
             manager.SetEvent();
 
         }
@@ -59,7 +61,7 @@ public class CustomStageGameManager : MonoBehaviour
             ObjectButtonManager manager = ButtonList[i].GetComponent<ObjectButtonManager>();
 
             if (manager.PopObjectPrefab == null)
-            {
+            {//何も設定されていなければ削除
                 Destroy(ButtonList[i].gameObject);
                 ButtonList.Remove(ButtonList[i]);
                 i--;
@@ -67,6 +69,7 @@ public class CustomStageGameManager : MonoBehaviour
         }
     }
 
+    //オブジェクト設置
     public void SetObject()
     {
         for (int i = 0; i < StageObjects.Count; i++)
@@ -87,11 +90,16 @@ public class CustomStageGameManager : MonoBehaviour
 
             }
 
-            GameObject SetObj = Instantiate(ObjectList[StageObjects[i].ObjectId],
-                  new Vector3(StageObjects[i].Xpos, StageObjects[i].Ypos),
-                  Quaternion.identity);
+            if(StageObjects[i].ObjectId > 100)
+            {
+                continue ;
+            }
 
-            SetObj.transform.Rotate(new Vector3(0, 0, StageObjects[i].Rot));
+            GameObject SetObj = Instantiate(ObjectList[StageObjects[i].ObjectId - 1],
+                  new Vector3(StageObjects[i].Xpos, StageObjects[i].Ypos),
+                ObjectList[StageObjects[i].ObjectId - 1].gameObject.transform.rotation);
+
+  
 
             Object obj = SetObj.GetComponent<Object>();
 
@@ -99,6 +107,7 @@ public class CustomStageGameManager : MonoBehaviour
         }
     }
 
+    //ステージオブジェクトの情報を取得
     public void GetStageObjects()
     {
         StartCoroutine(NetworkManager.Instance.GetStageObjects(StageId,          //ステージID
@@ -117,6 +126,7 @@ public class CustomStageGameManager : MonoBehaviour
  }));
     }
 
+    //ボタン情報の取得
     public void GetButtons()
     {
         StartCoroutine(NetworkManager.Instance.GetStageButtons(StageId,          //ステージID

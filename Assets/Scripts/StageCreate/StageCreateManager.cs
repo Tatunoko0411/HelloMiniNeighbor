@@ -84,48 +84,73 @@ public class StageCreateManager : MonoBehaviour
         }
     }
 
+    //試遊画面の生成処理
     public void SetTryStage()
     {
+        //ボタンとオブジェクトの初期化
         stageManager.StageObjects = new List<StageObject>();
         stageManager.ButtonObjIDList = new List<int>();
 
        
-
+        //ステージオブジェクトを追加
         foreach (StageObject obj in StageObjectList)
         {
             stageManager.StageObjects.Add(obj);
+            
         }
 
-        foreach(int Id in ButtonObjIDList)
+        //ボタンにオブジェクトを追加
+        foreach (int Id in ButtonObjIDList)
         {
            stageManager.ButtonObjIDList.Add(Id);
         }
 
+        DeleteObjects();
+
+        stageManager.SetObject();
 
 
+        //試遊画面のUIに切り替え
         CreateObject.SetActive(false);
         GameObjects.SetActive(true);
 
+        //オブジェクトを操作不可にする
         SetFixed();
 
+        //ボタンのイベントリセット
+        stageManager.ResetButtons();
+
+        //ボタンのイベントを設定
         stageManager.SetButtons();
+
+
+        //プレイヤーの設定変更
         gameManager.playerManager.createMode = false;
         gameManager.playerManager.StartPos = PlayerPos.position;
         gameManager.playerManager.InitPlayer();
 
+        //ポイントの設定
         gameManager.point = StartPoint;
         gameManager.uiManager.ChangePointTex();
     }
 
     public void BackStageCreate()
     {
+ 
+
+        //試遊画面のUIに切り替え
         CreateObject.SetActive(true);
         GameObjects.SetActive(false);
 
+        //プレイヤーの設定変更
         gameManager.playerManager.createMode = true;
         gameManager.playerManager.InitPlayer();
 
+        //オブジェクトを操作可能にする
         RemoveFixed();
+
+        DeleteObjects();
+        SetObject();
     }
 
     public void RemoveFixed()
@@ -145,6 +170,42 @@ public class StageCreateManager : MonoBehaviour
         foreach (Object obj in gameObjects)
         {
             obj.isFixed = true;
+        }
+    }
+
+
+ 
+
+    public void SetObject()
+    {
+        for (int i = 0; i < StageObjectList.Count; i++)
+        {
+            if(StageObjectList[i].ObjectId >= 999)
+            { continue;}
+
+            GameObject SetObj = Instantiate(ObjectList[StageObjectList[i].ObjectId - 1],
+                  new Vector3(StageObjectList[i].Xpos, StageObjectList[i].Ypos),
+                 ObjectList[StageObjectList[i].ObjectId - 1].transform.rotation);
+
+            SetObj.transform.Rotate(new Vector3(0, 0, StageObjectList[i].Rot));
+
+            Object obj = SetObj.GetComponent<Object>();
+
+            obj.isFixed = false;
+            obj.CreateMode = true;
+            obj.StageObjectID = i + 1;
+        }
+    }
+
+    public void DeleteObjects()
+    {
+        Object[] gameObjects = GameObject.FindObjectsOfType<Object>();
+
+        foreach (Object obj in gameObjects)
+        {
+            if(obj.id >= 999)
+            { continue; }
+            Destroy(obj.gameObject);
         }
     }
 
@@ -283,5 +344,27 @@ result =>
     public void BackTitleScene()
     {
         Initiate.Fade("TitleScene", Color.black, 1.0f);
+    }
+
+    public void CreateNormalStage()
+    {
+        StartCoroutine(NetworkManager.Instance.RegistNormalStage(
+           SetStageName, //名前
+           StartPoint,
+result =>
+{                          //登録終了後の処理
+   if (result == true)
+   {
+       StoreObjects();
+       StoreButtons();
+       StorePlayerPos();
+       StoreGoalPos();
+   }
+   else
+   {
+       Debug.Log("登録が正常に終了しませんでした。");
+
+   }
+}));
     }
 }

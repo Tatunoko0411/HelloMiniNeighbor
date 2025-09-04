@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5062483465257321951}
   - component: {fileID: 6692309547672616756}
   m_Layer: 3
-  m_Name: blackHole
+  m_Name: fan
   m_TagString: Trap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,9 +31,10 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.32, y: 0.2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.170487, y: 0.170487, z: 0.170487}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6113465207006150977}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1892744103468784265
@@ -77,8 +78,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: ea7c0a8d52a673746b9e44512980f1ad, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -101,6 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lenge: 3
+  centerPos: {fileID: 6113465207006150977}
 --- !u!114 &4235114657340034836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,14 +116,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 3
-  cost: 0
+  cost: -100
   isFixed: 0
   ObjectLayer:
     serializedVersion: 2
     m_Bits: 8
   isDrag: 0
+  rb: {fileID: 0}
   SetButtonID: 0
   CreateMode: 0
+  StageObjectID: 0
 --- !u!50 &5062483465257321951
 Rigidbody2D:
   serializedVersion: 4
@@ -181,6 +185,37 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.006169617, y: 0}
+  m_Offset: {x: -0.0061696386, y: 3.2299504}
   serializedVersion: 2
-  m_Radius: 0.49260455
+  m_Radius: 3.7225537
+--- !u!1 &7801499569218144380
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6113465207006150977}
+  m_Layer: 3
+  m_Name: Center
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6113465207006150977
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7801499569218144380}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3.13, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4148912308117938319}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

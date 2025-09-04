@@ -19,6 +19,7 @@ public class StageManager : MonoBehaviour
         new StageObject(1,-7,-3,0), new StageObject(1,8,-3,0)
     };
 
+    static public List<List<StageObject>> NormalstagesObjects;
     public bool createMode;
     // Start is called before the first frame update
     void Start()
@@ -36,6 +37,23 @@ public class StageManager : MonoBehaviour
         
     }
 
+    //ボタンのリセット
+    public void ResetButtons()
+    {
+        for (int i = 0; i < ButtonList.Count; i++)
+        {
+            if (ButtonList[i] == null)
+            { continue; }
+ 
+            ObjectButtonManager manager = ButtonList[i].GetComponent<ObjectButtonManager>();
+
+
+            manager.ResetEvent();
+
+        }
+    }
+
+    //ボタンの設定
     public void SetButtons()
     {
         for (int i = 0; i < ButtonObjIDList.Count; i++)
@@ -44,6 +62,7 @@ public class StageManager : MonoBehaviour
             {
                 continue;
             }
+            ButtonList[i].gameObject.SetActive(true);
             ObjectButtonManager manager = ButtonList[i].GetComponent<ObjectButtonManager>();
 
             manager.PopObjectPrefab
@@ -62,9 +81,9 @@ public class StageManager : MonoBehaviour
 
             if (manager.PopObjectPrefab == null)
             {
-                Destroy(ButtonList[i].gameObject);
-                ButtonList.Remove(ButtonList[i]);
-                i--;
+               ButtonList[i].gameObject.SetActive(false);
+           
+              
             }
         }
     }
@@ -73,15 +92,19 @@ public class StageManager : MonoBehaviour
     {
         for (int i = 0; i < StageObjects.Count; i++)
         {
-          GameObject SetObj =   Instantiate(ObjectList[StageObjects[i].ObjectId -1],
-                new Vector3(StageObjects[i].Xpos, StageObjects[i].Ypos),
-                Quaternion.identity);
+            if (StageObjects[i].ObjectId >= 999)
+            { continue; }
 
-            SetObj.transform.Rotate(new Vector3(0,0, StageObjects[i].Rot));
+            GameObject SetObj =   Instantiate(ObjectList[StageObjects[i].ObjectId-1],
+                new Vector3(StageObjects[i].Xpos, StageObjects[i].Ypos),
+                ObjectList[StageObjects[i].ObjectId - 1].transform.rotation);
 
           Object obj = SetObj.GetComponent<Object>();
 
+            obj.CreateMode = false;
             obj.isFixed = true;
+           
+
         }
     }
 }

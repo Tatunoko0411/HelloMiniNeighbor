@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class ObjectButtonManager : MonoBehaviour
 {
+    [SerializeField] List<Sprite> objSprites;
+    [SerializeField] Image image;
+
     GameManager gameManager;
     EventTrigger eventTrigger;
     Button button;
@@ -36,7 +39,7 @@ public class ObjectButtonManager : MonoBehaviour
 
         eventTrigger = GetComponent<EventTrigger>();
         button = GetComponent<Button>();
-        
+        ChangeSprite();
     }
 
     // Update is called once per frame
@@ -59,6 +62,7 @@ public class ObjectButtonManager : MonoBehaviour
         }
     }
 
+    //イベント設定
     public void SetEvent()
     {
         eventTrigger = GetComponent<EventTrigger>();
@@ -80,7 +84,13 @@ public class ObjectButtonManager : MonoBehaviour
         }
     }
 
+    public void ResetEvent()
+    {
+        eventTrigger = GetComponent<EventTrigger>();
+        eventTrigger.triggers.Clear();
+    }
 
+    //オブジェクト生成
     public void PopObject(Object obj)
     {
         if(obj == null)
@@ -113,4 +123,27 @@ public class ObjectButtonManager : MonoBehaviour
  
     }
 
+    public void ChangeSprite()
+    {
+        if(PopObjectPrefab == null) { return; }
+
+        image.sprite = objSprites[PopObjectPrefab.id];
+        image.color = new Color(1, 1, 1, 1);
+        image.SetNativeSize();
+    }
+
+    public void RemoveObject()
+    {
+        PopObjectPrefab = null;
+        StageCreateManager manager = GameObject.FindFirstObjectByType<StageCreateManager>();
+
+        if (manager != null)
+        {
+            manager.ButtonObjIDList[this.ID] = -1;
+        }
+
+        image.sprite = null;
+        image.color = new Color(0,0,0,0);
+
+    }
 }

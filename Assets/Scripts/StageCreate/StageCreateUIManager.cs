@@ -1,6 +1,7 @@
 using DG.Tweening.Core.Easing;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,6 +25,8 @@ public class StageCreateUIManager : MonoBehaviour
     float moveSpeed = 0.2f;
 
     public bool isCustom = false;
+
+    private bool changeButtons;
     // Start is called before the first frame update
     void Start()
     {
@@ -71,21 +74,39 @@ public class StageCreateUIManager : MonoBehaviour
         }
         else
         {
-            PopObjectButtons.transform.position = Vector2.MoveTowards(
-               PopObjectButtons.transform.position,
-               PopObjectButtons.HidePos,
-               moveSpeed);
+            if (changeButtons)
+            {
 
+                ObjectsView.transform.position = Vector2.MoveTowards(
+                   ObjectsView.transform.position,
+                   ObjectsView.HidePos,
+                   moveSpeed);
+
+
+                PopObjectButtons.transform.position = Vector2.MoveTowards(
+                   PopObjectButtons.transform.position,
+                   PopObjectButtons.SetPos,
+                   moveSpeed);
+
+            }
+            else
+            {
+                ObjectsView.transform.position = Vector2.MoveTowards(
+              ObjectsView.transform.position,
+              ObjectsView.SetPos,
+              moveSpeed);
+
+                PopObjectButtons.transform.position = Vector2.MoveTowards(
+                                 PopObjectButtons.transform.position,
+                                 PopObjectButtons.HidePos,
+                                 moveSpeed);
+
+            }
 
             DeleteBox.transform.position = Vector2.MoveTowards(
                 DeleteBox.transform.position,
                 DeleteBox.HidePos,
                 moveSpeed);
-
-            ObjectsView.transform.position = Vector2.MoveTowards(
-               ObjectsView.transform.position,
-               ObjectsView.SetPos,
-               moveSpeed);
 
             TryButton.transform.position = Vector2.MoveTowards(
                TryButton.transform.position,
@@ -101,6 +122,19 @@ public class StageCreateUIManager : MonoBehaviour
                PointInput.transform.position,
                PointInput.SetPos,
                moveSpeed);
+        }
+    }
+
+    //オブジェクト生成系ボタンの表示切り替え
+    public void changeObjectButtons()
+    {
+        if(changeButtons)
+        {
+            changeButtons = false;
+        }
+        else
+        {
+            changeButtons = true;
         }
     }
 }

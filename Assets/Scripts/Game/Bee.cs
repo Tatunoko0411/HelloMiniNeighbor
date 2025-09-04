@@ -38,9 +38,16 @@ public class Bee : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!obj.CreateMode)
+        {
+            startPosition = transform.position;
+            enabled = false;
+            Move();
+        }
         
     }
 
+    //移動処理
     private void Move()
     {
         float goalY = 0.0f; // 目的地点のy座標

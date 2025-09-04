@@ -26,8 +26,8 @@ public class Object : MonoBehaviour
     /// ステージクリエイト系
     public int SetButtonID = -1;
     StageCreateManager stageCreateManager;
-    public bool CreateMode;
-    private int StageObjectID;
+    public bool CreateMode = false;
+    public int StageObjectID;
 
 
     // Start is called before the first frame update
@@ -40,10 +40,9 @@ public class Object : MonoBehaviour
         {
             stageCreateManager = GameObject.Find("StageCreateManager").GetComponent<StageCreateManager>();
         }
-        else
-        {
+       
             gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        }
+        
 
 
     }
@@ -66,7 +65,7 @@ public class Object : MonoBehaviour
             isDrag = false;
             rb.bodyType = RigidbodyType2D.Static;
             if (!CreateMode)
-            {
+            {//ドラッグ状態の解除
                 gameManager.Draging = false;
             }
             else if (CreateMode)
@@ -74,23 +73,23 @@ public class Object : MonoBehaviour
                 if (SetButtonID < 0)
                 {
                     if (StageObjectID == 0)
-                    {
+                    {//オブジェクト情報を登録
                         StageObjectID = stageCreateManager.StageObjectList.Count + 1;
 
-                        stageCreateManager.StageObjectList.Add(new StageObject(id,
+                        stageCreateManager.StageObjectList.Add(new StageObject(id+1,
                             transform.position.x,
                             transform.position.y,
                             transform.rotation.z));
 
                         Debug.Log("オブジェクトが新しく設置されました");
-
+                        Debug.Log("ID:" + (id+1));
 
                     }
                 }
 
-               
-               
-                    stageCreateManager.Draging = false;
+
+                //ドラッグ状態の解除
+                stageCreateManager.Draging = false;
                 
             }
         }
@@ -108,6 +107,7 @@ public class Object : MonoBehaviour
                 worldPos,
                 0.1f );
 
+            //各方向に当たり判定があれば移動制限をする
             if(isRight())
             {
                 if(transform.position.x < movePos.x)
@@ -138,25 +138,27 @@ public class Object : MonoBehaviour
                 }
             }
 
-          //この後壁判定付けて移動制限
+       
 
             transform.position = movePos;
 
         }
         else
         {
-            if(isDelete && !isFixed &&id != 999)
+            if(isDelete && !isFixed &&id <= 999)
             {//常設オブジェクトは削除されない
+
+                //オブジェクト削除
                 Destroy(this.gameObject);
 
                 if (!CreateMode)
-                {
+                {//所持ポイント変更
                     gameManager.changePoint(cost);
                 }
                 else
                 {
                     if (StageObjectID != 0)
-                    {
+                    {//登録されていた情報を削除
                         stageCreateManager.StageObjectList.Remove(stageCreateManager.StageObjectList[StageObjectID - 1]);
                         Debug.Log("オブジェクトが削除されました");
                     }
@@ -169,19 +171,24 @@ public class Object : MonoBehaviour
             if(CreateMode)
             {
                 if(SetButtonID>=0)
-                {
+                {//ボタンにオブジェクト情報を追加
                     stageCreateManager.ButtonList[SetButtonID].PopObjectPrefab
                         = stageCreateManager.ObjectList[id].GetComponent<Object>();
-        
 
-                   
-                    //if(stageCreateManager.ButtonObjIDList[SetButtonID] == 0)
-                    //{
-                    //    stageCreateManager.ButtonObjIDList[SetButtonID] = stageCreateManager.ObjectList[id].GetComponent<Object>().id;
-                    //}
+                    stageCreateManager.ButtonList[SetButtonID].ChangeSprite();
+
+
+
                     stageCreateManager.ButtonObjIDList[SetButtonID] = stageCreateManager.ObjectList[id].GetComponent<Object>().id;
 
+                    //オブジェクト情報削除
                     Destroy(this.gameObject);
+
+                    //if (StageObjectID != 0)
+                    //{//登録されていた情報を削除
+                    //    stageCreateManager.StageObjectList.Remove(stageCreateManager.StageObjectList[StageObjectID  - 1]);
+                    //    Debug.Log("オブジェクトが削除されました");
+                    //}
                 }
             }
 
@@ -195,7 +202,10 @@ public class Object : MonoBehaviour
             return;
         }
         isDrag = true;
+        //ボディタイプの変更
         rb.bodyType = RigidbodyType2D.Dynamic;
+
+        //ドラッグ状態にする
         if (!CreateMode)
         {
             gameManager.Draging = true;
@@ -211,6 +221,7 @@ public class Object : MonoBehaviour
         isDrag = false;
         rb.bodyType = RigidbodyType2D.Static;
 
+        //ドラッグ状態の解除
         if (!CreateMode)
         {
             gameManager.Draging = false;
@@ -239,7 +250,7 @@ public class Object : MonoBehaviour
                     Debug.Log("オブジェクトが新しく設置されました");
                 }
                 else
-                {
+                {//オブジェクト情報の更新
                     stageCreateManager.StageObjectList[StageObjectID - 1].Xpos = transform.position.x;
                     stageCreateManager.StageObjectList[StageObjectID - 1].Ypos = transform.position.y;
                     stageCreateManager.StageObjectList[StageObjectID - 1].Rot = transform.rotation.z;
@@ -261,6 +272,7 @@ public class Object : MonoBehaviour
 
     }
 
+    //オブジェクトの当たり判定（右）
     public bool isRight()
     {
         SpriteRenderer sqSr = GetComponent<SpriteRenderer>();
@@ -276,6 +288,7 @@ public class Object : MonoBehaviour
             || Physics2D.Linecast(DownStartpoint, BasePos, ObjectLayer);
     }
 
+    //オブジェクトの当たり判定（左）
     public bool isLeft() {
         SpriteRenderer sqSr = GetComponent<SpriteRenderer>();
 
@@ -290,6 +303,7 @@ public class Object : MonoBehaviour
             || Physics2D.Linecast(DownStartpoint, BasePos, ObjectLayer);
     }
 
+    //オブジェクトの当たり判定（上）
     public bool isUp() {
         SpriteRenderer sqSr = GetComponent<SpriteRenderer>();
 
@@ -304,6 +318,7 @@ public class Object : MonoBehaviour
             || Physics2D.Linecast(LeftStartpoint, BasePos, ObjectLayer);
     }
 
+    //オブジェクトの当たり判定（下）
     public bool isDown() {
         SpriteRenderer sqSr = GetComponent<SpriteRenderer>();
 
@@ -335,10 +350,10 @@ public class Object : MonoBehaviour
             {
                 SetButtonID = collision.gameObject.GetComponent<ObjectButtonManager>().ID;
 
-                Debug.Log(SetButtonID);
+              
             }
 
-            Debug.Log(SetButtonID);
+           
         }
 
     }

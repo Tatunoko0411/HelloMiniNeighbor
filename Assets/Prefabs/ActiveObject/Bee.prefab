@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.8, y: 0.3, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.07985869, y: 0.07985869, z: 0.07985869}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -77,8 +77,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
-  m_Color: {r: 1, g: 0.9420192, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 8e59fd4a16847714bad47be9ec9f1b9c, type: 3}
+  m_Color: {r: 0.9308176, g: 0.9308176, b: 0.9308176, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -113,14 +113,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 4
-  cost: 0
+  cost: -50
   isFixed: 0
   ObjectLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   isDrag: 0
+  rb: {fileID: 0}
   SetButtonID: 0
   CreateMode: 0
+  StageObjectID: 0
 --- !u!50 &7190260371721581670
 Rigidbody2D:
   serializedVersion: 4
@@ -180,6 +182,6 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.009233445}
+  m_Offset: {x: 1.3808882, y: -1.2511269}
   serializedVersion: 2
-  m_Radius: 0.27943322
+  m_Radius: 5.5527773

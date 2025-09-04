@@ -45,28 +45,33 @@ public class GameManager : MonoBehaviour
 
     }
 
+    //ゲーム（プレイヤー移動）の中断
     public void StopGame()
     {
         isStart = false;
         playerManager.StopPlayer();
     }
 
+    //ポイントの変更
     public void changePoint(int value)
     {
         point += value;
         uiManager.ChangePointTex();
     }
 
+    //リトライ
     public void Retry()
     {
         Initiate.Fade(SceneManager.GetActiveScene().name, Color.black,1.0f);
     }
 
+    //ステージセレクトに遷移
     public void MoveStageSelect()
     {
         Initiate.Fade("StageSelectScene", Color.black, 1.0f);
     }
 
+    //ステージセレクトに遷移
     public void MoveCustomStageSelect()
     {
         Initiate.Fade("CustomStageSelectScene", Color.black, 1.0f);

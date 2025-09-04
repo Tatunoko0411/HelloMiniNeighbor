@@ -32,6 +32,7 @@ public class faucet : MonoBehaviour
         
     }
 
+    //一定間隔でオブジェクト生成
     IEnumerator dropWater()
     {
         Debug.Log("開始");

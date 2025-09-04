@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Rendering;
 
 public class NetworkManager : MonoBehaviour
 {
@@ -21,7 +22,11 @@ public class NetworkManager : MonoBehaviour
 
     private int userID; // 自分のユーザーID
     private string userName; // 入力される想定の自分のユーザー名
-                             // プロパティ
+    private string apiToken;  //APIトークン
+
+   
+
+                              // プロパティ
     public int UserID
     {
         get
@@ -39,9 +44,17 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
+    public string ApiToken
+    {
+        get
+        {
+            return this.apiToken;
+        }
+    }
+
     private static NetworkManager instance;
 
-    private string apiToken;  //APIトークン
+
     public static NetworkManager Instance
     {
         get
@@ -92,6 +105,41 @@ public class NetworkManager : MonoBehaviour
         result?.Invoke(isSuccess); //ここで呼び出し元のresult処理を呼び出す
     }
 
+    // ステージ情報を保存する
+    private void SaveStage(List<List<StageObject>> stageObjDates,List<List<int>>objBtnIDs)
+    {
+       List<SaveStageData> stageData = new List<SaveStageData>();
+
+        for (int i = 0; i < stageObjDates.Count; i++)
+        {
+            stageData.Add(new SaveStageData(stageObjDates[i], objBtnIDs[i]));
+        }
+
+        string json = JsonConvert.SerializeObject(stageData);
+        var writer =
+                new StreamWriter(Application.persistentDataPath + "/stageData.json");
+        writer.Write(json);
+        writer.Flush();
+        writer.Close();
+    }
+
+
+    // ステージ情報を読み込む
+    public bool LoadStage()
+    {
+        if (!File.Exists(Application.persistentDataPath + "/stageData.json"))
+        {
+            return false;
+        }
+        var reader =
+                   new StreamReader(Application.persistentDataPath + "/stageData.json");
+        string json = reader.ReadToEnd();
+        reader.Close();
+        List<List<StageObject>> saveData = JsonConvert.DeserializeObject<List<List<StageObject>>>(json);
+        StageManager.NormalstagesObjects = saveData;
+        return true;
+    }
+
 
     // ユーザー情報を保存する
     private void SaveUserData()
@@ -99,6 +147,7 @@ public class NetworkManager : MonoBehaviour
         SaveData saveData = new SaveData();
         saveData.UserName = this.userName;
         saveData.UserID = this.userID;
+        saveData.apiToken = this.apiToken;
         string json = JsonConvert.SerializeObject(saveData);
         var writer =
                 new StreamWriter(Application.persistentDataPath + "/saveData.json");
@@ -122,17 +171,17 @@ public class NetworkManager : MonoBehaviour
         SaveData saveData = JsonConvert.DeserializeObject<SaveData>(json);
         this.userID = saveData.UserID;
         this.userName = saveData.UserName;
+        this.apiToken = saveData.apiToken;
         return true;
     }
 
 
     //ユーザー情報更新
-    public IEnumerator UpdateUser(string name, int level, Action<bool> result)
+    public IEnumerator UpdateUser(string name, Action<bool> result)
     {
         //サーバーに送信するオブジェクトを作成
         UpdateUserRequest requestData = new UpdateUserRequest();
         requestData.Name = name;
-        requestData.Level = 1;
         //サーバーに送信するオブジェクトをJSONに変換
         string json = JsonConvert.SerializeObject(requestData);
         //送信
@@ -191,7 +240,7 @@ public class NetworkManager : MonoBehaviour
         //サーバーに送信するオブジェクトを作成
 RegistStageRequest requestData = new RegistStageRequest();
         requestData.Name = name;
-        requestData.UserID = userID;
+        requestData.UserID = this.userID;
         requestData.Point = point;
         //サーバーに送信するオブジェクトをJSONに変換
         string json = JsonConvert.SerializeObject(requestData);
@@ -216,6 +265,35 @@ RegistStageRequest requestData = new RegistStageRequest();
         result?.Invoke(isSuccess); //ここで呼び出し元のresult処理を呼び出す
     }
 
+    public IEnumerator RegistNormalStage(string name, int point, Action<bool> result)
+    {
+        //サーバーに送信するオブジェクトを作成
+        RegistStageRequest requestData = new RegistStageRequest();
+        requestData.Name = name;
+        requestData.UserID = 0;//ノーマルモードのステージはID0で登録
+        requestData.Point = point;
+        //サーバーに送信するオブジェクトをJSONに変換
+        string json = JsonConvert.SerializeObject(requestData);
+
+        //送信
+        UnityWebRequest request = UnityWebRequest.Post(
+                    API_BASE_URL + "stages/store", json, "application/json");
+
+        yield return request.SendWebRequest();
+        bool isSuccess = false;
+        if (request.result == UnityWebRequest.Result.Success
+            && request.responseCode == 200)
+        {
+            isSuccess = true;
+
+            string resultJson = request.downloadHandler.text;
+            RegistStageResponse response = JsonConvert.DeserializeObject<RegistStageResponse>(resultJson);
+
+            StageCreateManager stageCreateManager = GameObject.FindObjectOfType<StageCreateManager>();
+            stageCreateManager.StageId = response.StageID;
+        }
+        result?.Invoke(isSuccess); //ここで呼び出し元のresult処理を呼び出す
+    }
 
     //オブジェクトボタン登録
     public IEnumerator RegistObjectButton(int objectID, int stageID, Action<bool> result)
