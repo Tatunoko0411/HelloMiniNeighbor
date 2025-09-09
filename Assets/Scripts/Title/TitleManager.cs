@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -14,11 +15,23 @@ public class TitleManager : MonoBehaviour
     [SerializeField]InputField nameField;
     [SerializeField]Text IDText;
 
+    [SerializeField]GameObject UserUI;
+    [SerializeField] GameObject MainUI;
+
+    [SerializeField]GameObject TitleStart;
+    bool isTouched;
+    bool isSave = false;
+    bool StartGetNStage = false;//ステージ情報取得を開始したかどうか
+
+    //コルーチン終了待ち用の変数
+    int btnCnt = 0;
+    int ObjCnt = 0;
+
     // Start is called before the first frame update
     void Start()
     {
         bool isSuccess = NetworkManager.Instance.LoadUserData();
-        if (isSuccess)
+        if (false)
         {
             Debug.Log("データがありました");
            InitDate();
@@ -31,7 +44,7 @@ public class TitleManager : MonoBehaviour
             {                          //登録終了後の処理
                 if (result == true)
                 {
-                      InitDate();
+             
                     Debug.Log("登録完了");
                     Debug.Log(NetworkManager.Instance.ApiToken);
                 }
@@ -43,12 +56,68 @@ public class TitleManager : MonoBehaviour
             }));
 
         }
+
+        isSuccess = NetworkManager.Instance.LoadStage();
+
+        if (isSuccess)
+        {
+            Debug.Log("データがありました");
+            Debug.Log(StageManager.NormalstagesObjects[0].Count);
+            isSave = true;
+        }
+        else
+        {
+            StartCoroutine(NetworkManager.Instance.GetNormalStage(
+               result =>
+               {                          //登録終了後の処理
+                   if (result == true)
+                   {
+                       StartGetNStage = true;
+                       Debug.Log(StageManager.NormalStageIDs.Count );
+                       foreach(int id in StageManager.NormalStageIDs)
+                       {
+                           
+
+                           GetNormalStageBtns(id);
+                           GetNormalStageObjs(id);
+                       }
+
+
+                       Debug.Log("登録完了");
+                     
+                   }
+                   else
+                   {
+                       Debug.Log("ユーザー登録が正常に終了しませんでした。");
+
+                   }
+               }));
+
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
 
+        if (Input.GetMouseButtonDown(0) && !isTouched)
+        {
+            isTouched = true;
+            TitleStart.SetActive(false);
+        }
+
+        if (btnCnt >= StageManager.NormalStageIDs.Count
+            && ObjCnt >= StageManager.NormalStageIDs.Count
+            && StartGetNStage)
+        {//全情報取得完了
+            if (!isSave)
+            {
+                NetworkManager.Instance.SaveStage();
+                Debug.Log("ステージ情報をセーブしました");
+                isSave = true;
+            }
+           
+        }
     }
 
     public void InitDate()
@@ -74,6 +143,66 @@ public class TitleManager : MonoBehaviour
 
             }
         }));
+    }
+
+    void GetNormalStageObjs(int stageId)
+    {
+        StartCoroutine(NetworkManager.Instance.GetNormelStageObjects(stageId,
+               result =>
+               {                          //登録終了後の処理
+                   if (result == true)
+                   {
+                       Debug.Log("完了");
+                       ObjCnt++;
+                       Debug.Log("objCnt:" + ObjCnt + "StageManager.NormalStageIDs.Count" + StageManager.NormalStageIDs.Count);
+                   }
+                   else
+                   {
+                       Debug.Log("ユーザー登録が正常に終了しませんでした。");
+
+                   }
+               }));
+    }
+
+    void GetNormalStageBtns(int stageId)
+    {
+        StartCoroutine(NetworkManager.Instance.GetNormalStageButtons(stageId,
+               result =>
+               {                          //登録終了後の処理
+                   if (result == true)
+                   {
+            
+                       Debug.Log("完了");
+                       btnCnt++;
+                       Debug.Log("btnCnt:" + btnCnt + "StageManager.NormalStageIDs.Count" + StageManager.NormalStageIDs.Count);
+
+                   }
+                   else
+                   {
+                       Debug.Log("ユーザー登録が正常に終了しませんでした。");
+
+                   }
+               }));
+    }
+
+  
+
+    public void BackTItle()
+    {
+        isTouched = false;
+        TitleStart.SetActive(true);
+    }
+
+    public void DisplayUserData()
+    {
+        UserUI.SetActive(true);
+        MainUI.SetActive(false);
+    }
+
+    public void HideUserData()
+    {
+        MainUI.SetActive(true);
+        UserUI.SetActive(false);
     }
 
     public void MoveSelect()

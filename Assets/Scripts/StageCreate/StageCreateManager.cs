@@ -180,7 +180,7 @@ public class StageCreateManager : MonoBehaviour
     {
         for (int i = 0; i < StageObjectList.Count; i++)
         {
-            if(StageObjectList[i].ObjectId >= 999)
+            if(StageObjectList[i].ObjectId >= 999 || StageObjectList[i].ObjectId < 0)
             { continue;}
 
             GameObject SetObj = Instantiate(ObjectList[StageObjectList[i].ObjectId - 1],
@@ -240,7 +240,7 @@ result =>
         {
             Debug.Log(obj.ObjectId);
 
-            if(obj.ObjectId == 999)
+            if(obj.ObjectId == 999 || obj.ObjectId < 0)
             {
                 continue;
             }

@@ -14,10 +14,11 @@ public class NetworkManager : MonoBehaviour
     // WebAPIの接続先を設定
 #if DEBUG
     // 開発環境で使用する値をセット
-    const string API_BASE_URL = "http://localhost:8000/api/";
+   // const string API_BASE_URL = "http://localhost:8000/api/";
+     const string API_BASE_URL = "ge202402.japaneast.cloudapp.azure.com/api/";
 #else
-  // 本番環境で使用する値をセット
-  const string API_BASE_URL = "https://…azure.com/api/";
+    // 本番環境で使用する値をセット
+    const string API_BASE_URL = "https://ca-test.whitedune-278699f7.japaneast.azurecontainerapps.io/api/";
 #endif
 
     private int userID; // 自分のユーザーID
@@ -106,13 +107,17 @@ public class NetworkManager : MonoBehaviour
     }
 
     // ステージ情報を保存する
-    private void SaveStage(List<List<StageObject>> stageObjDates,List<List<int>>objBtnIDs)
+    public void SaveStage()
     {
-       List<SaveStageData> stageData = new List<SaveStageData>();
+       List<StageData> stageData = new List<StageData>();
 
-        for (int i = 0; i < stageObjDates.Count; i++)
+        for (int i = 0; i < StageManager.NormalStageIDs.Count; i++)
         {
-            stageData.Add(new SaveStageData(stageObjDates[i], objBtnIDs[i]));
+            stageData.Add(new StageData(
+                StageManager.NormalstagesObjects[i],
+                StageManager.NormalStageButtonIDs[i],
+                StageManager.NormalStagePoints[i]
+                ));
         }
 
         string json = JsonConvert.SerializeObject(stageData);
@@ -135,14 +140,18 @@ public class NetworkManager : MonoBehaviour
                    new StreamReader(Application.persistentDataPath + "/stageData.json");
         string json = reader.ReadToEnd();
         reader.Close();
-        List<List<StageObject>> saveData = JsonConvert.DeserializeObject<List<List<StageObject>>>(json);
-        StageManager.NormalstagesObjects = saveData;
+        List<StageData> saveData = JsonConvert.DeserializeObject<List<StageData>>(json);
+        foreach (StageData data in saveData)
+        {
+            StageManager.NormalStagePoints.Add(data.Point);
+            StageManager.NormalstagesObjects.Add(data.objects);
+            StageManager.NormalStageButtonIDs.Add(data.ButtonObjectIDLIst);
+        }
         return true;
     }
 
-
-    // ユーザー情報を保存する
-    private void SaveUserData()
+    // ステージ情報を保存する
+    public void SaveUserData()
     {
         SaveData saveData = new SaveData();
         saveData.UserName = this.userName;
@@ -154,6 +163,36 @@ public class NetworkManager : MonoBehaviour
         writer.Write(json);
         writer.Flush();
         writer.Close();
+    }
+
+    public IEnumerator GetNormalStage(Action<bool> result)
+    {
+        //送信
+        UnityWebRequest request = UnityWebRequest.Get(
+                    API_BASE_URL + "stages/0");
+
+        yield return request.SendWebRequest();
+        bool isSuccess = false;
+        if (request.result == UnityWebRequest.Result.Success
+            && request.responseCode == 200)
+        {
+            string resultJson = request.downloadHandler.text;
+            List<GetStageResponse> response = JsonConvert.DeserializeObject<List<GetStageResponse>>(resultJson);
+
+            ;
+
+            foreach (GetStageResponse responseItem in response)
+            {
+                StageManager.NormalStageIDs.Add(responseItem.ID);
+                StageManager.NormalStagePoints.Add(responseItem.Point);
+
+              
+            }
+
+
+            isSuccess = true;
+        }
+        result?.Invoke(isSuccess); //ここで呼び出し元のresult処理を呼び出す
     }
 
 
@@ -319,7 +358,7 @@ RegistStageRequest requestData = new RegistStageRequest();
         result?.Invoke(isSuccess); //ここで呼び出し元のresult処理を呼び出す
     }
 
-    //ステージ情報取得
+    //ステージ情報取得a
     public IEnumerator GetStages( Action<bool> result)
     {
 
@@ -388,6 +427,42 @@ RegistStageRequest requestData = new RegistStageRequest();
         result?.Invoke(isSuccess); //ここで呼び出し元のresult処理を呼び出す
     }
 
+    public IEnumerator GetNormelStageObjects(int stageID, Action<bool> result)
+    {
+
+
+        //送信
+        UnityWebRequest request = UnityWebRequest.Get(
+                    API_BASE_URL + "stages/object/get/" + stageID);
+
+        yield return request.SendWebRequest();
+        bool isSuccess = false;
+        if (request.result == UnityWebRequest.Result.Success
+            && request.responseCode == 200)
+        {
+            string resultJson = request.downloadHandler.text;
+            List<GetStageObjectResponse> response = JsonConvert.DeserializeObject<List<GetStageObjectResponse>>(resultJson);
+
+            List<StageObject> stageObjects = new List<StageObject>();
+
+            foreach (GetStageObjectResponse responseItem in response)
+            {
+                stageObjects.Add(new StageObject(
+                    responseItem.ObjectID,
+                    responseItem.X,
+                    responseItem.Y,
+                    responseItem.Rot));
+            }
+
+            StageManager.NormalstagesObjects.Add(stageObjects);
+
+
+            isSuccess = true;
+        }
+        result?.Invoke(isSuccess); //ここで呼び出し元のresult処理を呼び出す
+    }
+
+
     public IEnumerator GetStageButtons(int stageID, Action<bool> result)
     {
 
@@ -412,6 +487,34 @@ RegistStageRequest requestData = new RegistStageRequest();
             }
 
 
+            isSuccess = true;
+        }
+        result?.Invoke(isSuccess); //ここで呼び出し元のresult処理を呼び出す
+    }
+
+    public IEnumerator GetNormalStageButtons(int stageID, Action<bool> result)
+    {
+
+
+        //送信
+        UnityWebRequest request = UnityWebRequest.Get(
+                    API_BASE_URL + "stages/button/get/" + stageID);
+
+        yield return request.SendWebRequest();
+        bool isSuccess = false;
+        if (request.result == UnityWebRequest.Result.Success
+            && request.responseCode == 200)
+        {
+            string resultJson = request.downloadHandler.text;
+            List<GetButtonResponse> response = JsonConvert.DeserializeObject<List<GetButtonResponse>>(resultJson);
+
+            List<int> buttonIds = new List<int>();
+            foreach (GetButtonResponse responseItem in response)
+            {
+                buttonIds.Add(responseItem.ObjectID);
+            }
+
+            StageManager.NormalStageButtonIDs.Add(buttonIds);
             isSuccess = true;
         }
         result?.Invoke(isSuccess); //ここで呼び出し元のresult処理を呼び出す

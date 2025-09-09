@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -21,6 +22,9 @@ public class PlayerManager : MonoBehaviour
 
     public float MaxSpeed;
 
+    public float groundSpeed;//地上のスピード
+    public float junpSpeed;//空中のスピード
+
     public bool isDead;//死亡判定
 
     public bool createMode;
@@ -34,7 +38,9 @@ public class PlayerManager : MonoBehaviour
 
 
    public DIRECTION_TYPE direction;
-    public float speed;
+   public float speed;
+
+    Animator animator;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,11 +49,13 @@ public class PlayerManager : MonoBehaviour
         direction = DIRECTION_TYPE.STOP;
         isDead = false;
         capsuleCollider2D = GetComponent<CapsuleCollider2D>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        animator.SetFloat("Velocity",Math.Abs( rb.velocity.x));
 
         if (createMode)
         {
@@ -73,51 +81,51 @@ public class PlayerManager : MonoBehaviour
 
             }
         }
-
-        if(isGlound())
-        {
-            move();
-        }
-
-        if (rb.velocity.x >= MaxSpeed)
-        {
-            rb.velocity = new Vector2(MaxSpeed, rb.velocity.y);
-
-        }
-        if (rb.velocity.x <= -MaxSpeed)
-        {
-            rb.velocity = new Vector2(-MaxSpeed, rb.velocity.y);
-
-        }
-        if (rb.velocity.y <= -22)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, -22);
-
-        }
+        move();
+  
 
     }
 
     private void move()
     {
 
-
-
-       // float SpLate = speed -(rb.velocity.x / speed);
-
-        if (direction == DIRECTION_TYPE.RIGHT)
+        if (isGlound())
         {
-            rb.AddForce(new Vector2(speed, 0));
-            transform.localScale = new Vector3(0.27f, 0.27f, 0.27f);
+           animator.SetBool("isGround", true);
+
+            if (direction == DIRECTION_TYPE.RIGHT)
+            {
+               rb.velocity = new Vector2 (groundSpeed,rb.velocity.y);
+                transform.localScale = new Vector3(0.27f, 0.27f, 0.27f);
+                
+            }
+            else if (direction == DIRECTION_TYPE.LEFT)
+            {
+              
+
+                rb.velocity = new Vector2(-groundSpeed, rb.velocity.y);
+                transform.localScale = new Vector3(-0.27f, 0.27f, 0.27f);
+            }
         }
-        else if (direction == DIRECTION_TYPE.LEFT)
+        else
         {
-            //rb.velocity = new Vector2(rb.velocity.x - (speed * SpLate), rb.velocity.y);
+            animator.SetBool("isGround", false);
 
-            rb.AddForce(new Vector2(-speed, 0));
-            transform.localScale = new Vector3(-0.27f, 0.27f, 0.27f);
+            if (direction == DIRECTION_TYPE.RIGHT)
+            {
+                rb.velocity = new Vector2(junpSpeed, rb.velocity.y);
+                transform.localScale = new Vector3(0.27f, 0.27f, 0.27f);
+            }
+            else if (direction == DIRECTION_TYPE.LEFT)
+            {
+                //rb.velocity = new Vector2(rb.velocity.x - (speed * SpLate), rb.velocity.y);
+
+                rb.velocity = new Vector2(-junpSpeed, rb.velocity.y);
+                transform.localScale = new Vector3(-0.27f, 0.27f, 0.27f);
+            }
         }
 
-        //rb.velocity = new Vector2(rb.velocity.x - rb.velocity.x * 0.05f, rb.velocity.y);
+      
 
     
     }
@@ -197,6 +205,12 @@ public class PlayerManager : MonoBehaviour
         Debug.Log("死亡");
         capsuleCollider2D.enabled = false;
         isDead = true;
+        animator.SetBool("Death", true);
+    }
+
+    public void OffDeathAnim()
+    {
+        animator.SetBool("Death", false);
     }
 
     //プレイヤーの初期化

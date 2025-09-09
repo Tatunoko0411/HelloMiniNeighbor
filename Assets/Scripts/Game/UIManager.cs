@@ -53,7 +53,7 @@ public class UIManager : MonoBehaviour
     public void ChangePointTex()
     {
 
-            PointTex.text = $"残りポイント：{gameManager.point}";
+            PointTex.text = $":{gameManager.point}";
         
     }
 

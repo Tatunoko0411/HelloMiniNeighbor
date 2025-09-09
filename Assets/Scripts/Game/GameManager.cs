@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
 
     public bool isClear;
 
+    [SerializeField] GameObject PauseUI;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +38,17 @@ public class GameManager : MonoBehaviour
         
     }
 
+    public void ChangePause()
+    {
+        if (PauseUI.activeSelf)
+        {
+            PauseUI.SetActive(false);
+        }
+        else
+        {
+            PauseUI.SetActive(true);
+        }
+    }
 
  
     public void StartGame()

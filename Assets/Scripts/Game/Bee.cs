@@ -17,34 +17,54 @@ public class Bee : MonoBehaviour
 
     Vector3 startPosition; // 開始時点のオブジェクトの位置
     float speed;
+    bool isMove;
 
     Object obj;
+
+    GameManager gameManager;
     // Start is called before the first frame update
     void Start()
     {
         obj = GetComponent<Object>();
 
-        direction = DIRECTION_TYPE.TOP;
+        direction = DIRECTION_TYPE.STOP;
 
         startPosition = transform.position;
 
         if (!obj.CreateMode)
         {
-
-            Move();
+            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(!obj.CreateMode)
+        if (!obj.CreateMode)
         {
-            startPosition = transform.position;
-            enabled = false;
-            Move();
+            
+            if (gameManager.isStart)
+            {
+                if (!isMove)
+                {
+                    startPosition = transform.position;
+                    direction = DIRECTION_TYPE.TOP;
+                    isMove = true;
+                    Move();
+
+                }
+            }
+            else if (!gameManager.isStart)
+            {
+                if (isMove)
+                {
+                    direction = DIRECTION_TYPE.STOP;
+                    isMove = false;
+                }
+            }
         }
-        
+
     }
 
     //移動処理

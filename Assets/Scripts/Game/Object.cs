@@ -159,7 +159,7 @@ public class Object : MonoBehaviour
                 {
                     if (StageObjectID != 0)
                     {//登録されていた情報を削除
-                        stageCreateManager.StageObjectList.Remove(stageCreateManager.StageObjectList[StageObjectID - 1]);
+                        stageCreateManager.StageObjectList[StageObjectID - 1].ObjectId = -1;
                         Debug.Log("オブジェクトが削除されました");
                     }
                 }
@@ -197,8 +197,8 @@ public class Object : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        if(isFixed)
-        {//常設オブジェクトは選択できない
+        if(isFixed || gameManager.isStart)
+        {//常設オブジェクトまたは実行中は選択できない
             return;
         }
         isDrag = true;
@@ -263,7 +263,7 @@ public class Object : MonoBehaviour
             {
                 if (StageObjectID != 0)
                 {
-                    stageCreateManager.StageObjectList.Remove(stageCreateManager.StageObjectList[StageObjectID - 1]);
+                    stageCreateManager.StageObjectList[StageObjectID - 1].ObjectId = -1;
                     Debug.Log("オブジェクトが削除されました");
                 }
             }

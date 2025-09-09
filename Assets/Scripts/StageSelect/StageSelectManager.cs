@@ -23,6 +23,7 @@ public class StageSelectManager : MonoBehaviour
 
     public void SelectStage(int stage)
     {
+        StageManager.StageID = stage;
         Initiate.Fade("GameScene", Color.black, 1.0f);
 
     }

@@ -9,6 +9,7 @@ public class ObjectButtonManager : MonoBehaviour
 {
     [SerializeField] List<Sprite> objSprites;
     [SerializeField] Image image;
+    [SerializeField] Text CostText;
 
     GameManager gameManager;
     EventTrigger eventTrigger;
@@ -20,6 +21,8 @@ public class ObjectButtonManager : MonoBehaviour
     public Object PopObjectPrefab;
 
     public bool CreateMode;//クリエイトモードかどうか
+
+
   
     // Start is called before the first frame update
     void Start()
@@ -29,12 +32,14 @@ public class ObjectButtonManager : MonoBehaviour
         if (!CreateMode)
         {
             gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-          
+            SetPointText();
+
         }
 
         if (CreateMode)
         {
             SetEvent();
+            
         }
 
         eventTrigger = GetComponent<EventTrigger>();
@@ -145,5 +150,10 @@ public class ObjectButtonManager : MonoBehaviour
         image.sprite = null;
         image.color = new Color(0,0,0,0);
 
+    }
+
+    public void SetPointText()
+    {
+        CostText.text = "×" + Cost;
     }
 }

@@ -45,6 +45,11 @@ public class CustomStageSelectManager : MonoBehaviour
     {
         foreach (CustomStageDate date in customStages)
         {
+            if(date.UserId == 0)
+            {
+                continue;
+            }
+
             GameObject obj = Instantiate(stageContentPrefab,
                 ContentParent.transform.position,
                 Quaternion.identity,

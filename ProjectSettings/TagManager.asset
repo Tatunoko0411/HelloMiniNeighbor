@@ -45,11 +45,14 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Player
-    uniqueID: 1564530777
+  - name: BackGroud
+    uniqueID: 1979787061
     locked: 0
   - name: ClearUI
     uniqueID: 2546559915
+    locked: 0
+  - name: Player
+    uniqueID: 1564530777
     locked: 0
   - name: Default
     uniqueID: 0

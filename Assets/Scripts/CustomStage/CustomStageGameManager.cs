@@ -52,6 +52,8 @@ public class CustomStageGameManager : MonoBehaviour
 
             //ƒCƒxƒ“ƒg‚ð’Ç‰Á
             manager.SetEvent();
+            manager.SetPointText();
+            manager.ChangeSprite();
 
         }
 
