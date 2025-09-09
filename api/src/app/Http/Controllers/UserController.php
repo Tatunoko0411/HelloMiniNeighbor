@@ -32,6 +32,8 @@ class UserController extends Controller
 
     }
 
+
+    /**ユーザ情報登録*/
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -65,10 +67,9 @@ class UserController extends Controller
 
         $user = User::findOrFail($request->user()->id);
 
-
-        $user->name = $request->name;
-        $user->level = $request->level;
-        $user->EXP = $request->EXP;
+        $user->fill([
+            'name' => $request->name
+        ]);
 
         $user->save();
 

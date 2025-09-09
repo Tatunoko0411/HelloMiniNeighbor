@@ -10,15 +10,15 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('stage_objects', function (Blueprint $table) {
-            $table->id();
-            $table->integer('stage_id');
-            $table->float('x');
-            $table->float('y');
-            $table->integer('rot');
-            $table->integer('object_id');
-            $table->timestamps();
-        });
+        /* Schema::create('stage_objects', function (Blueprint $table) {
+             $table->id();
+             $table->integer('stage_id');
+             $table->float('x');
+             $table->float('y');
+             $table->integer('rot');
+             $table->integer('object_id');
+             $table->timestamps();
+         });*/
     }
 
     /**

@@ -13,24 +13,27 @@ class UsersTableSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(100)->create();
-        /*  user::create(
-              [
-                  'name' => '田中',
-                  'level' => 14,
-                  'EXP' => 1460
-              ]
 
-          );
-          user::create([
-              'name' => '佐藤',
-              'level' => 10,
-              'EXP' => 1010
-          ]);
-          user::create([
-              'name' => 'マイケル',
-              'level' => 63,
-              'EXP' => 103398
-          ]);*/
+        user::create(
+            [
+                'name' => 'aaa',
+                'play_time' => 0,
+                'clear_time' => 0,
+                'create_stage' => 0
+            ]
+
+        );
+        user::create([
+            'name' => 'bbb',
+            'play_time' => 0,
+            'clear_time' => 0,
+            'create_stage' => 0
+        ]);
+        user::create([
+            'name' => 'ccc',
+            'play_time' => 0,
+            'clear_time' => 0,
+            'create_stage' => 0
+        ]);
     }
 }

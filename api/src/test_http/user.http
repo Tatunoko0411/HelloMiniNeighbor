@@ -13,21 +13,17 @@ Content-Type: application/json
 Accept: application/json
 
 {
-    "name": "amanda",
-    "level": 10,
-    "EXP": 1000
+    "name": "test999"
 }
 
 ### ユーザー更新
 POST http://localhost:8000/api/users/update
 Content-Type: application/json
 Accept: application/json
-Authorization: Bearer 1|oayZIq6SZxnBucXFX4HrYyFqRny4xrcYfzcgTCzlce90e214
+Authorization: Bearer 3|BHiDDXvgwLWnWIcrgbQirEQLYfdp3Geq6DFh8xwe83c0a8b7
 
 {
-    "name": "amanda",
-    "level": 999,
-    "EXP": 0
+    "name": "aaaa"
 }
 
 ### ユーザー情報更新
@@ -69,7 +65,6 @@ Content-Type: application/json
 Accept: application/json
 
 {
-    "user_id": 99,
     "name": "test000"
 }
 
@@ -91,7 +86,7 @@ GET http://localhost:8000/api/stages/object/get/1
 Accept: application/json
 
 ### ステージ情報取得
-GET http://localhost:8000/api/stages/index
+GET http://localhost:8000/api/stages/0
 Accept: application/json
 
 ### ステージオブジェクト情報取得
@@ -100,4 +95,18 @@ Accept: application/json
 
 ### ステージボタン情報取得
 GET http://localhost:8000/api/stages/button/get/
+Accept: application/json
+
+### テスト
+GET http://localhost:8000/api/tests
+Accept: application/json
+
+
+###てすと　
+GET http://ge202402.japaneast.cloudapp.azure.com/api/users/index
+Accept: application/json
+
+
+###てすと　
+GET http://ge202402.japaneast.cloudapp.azure.com/api/tests
 Accept: application/json

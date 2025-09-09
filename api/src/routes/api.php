@@ -4,6 +4,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\StageButtonController;
 use App\Http\Controllers\StageObjectController;
 use App\Http\Controllers\StageController;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserDetailController;
 use App\Models\StageButton;
@@ -24,7 +25,7 @@ Route::get('stages/index',
     ->name('users.index');
 
 
-Route::get('stages/{stage_id}',
+Route::get('stages/{user_id}',
     [StageController::class, 'show'])
     ->name('users.show');
 
@@ -84,3 +85,6 @@ Route::post('stages/button/store',
 Route::get('stages/button/get/{stage_id}',
     [StageButtonController::class, 'get'])
     ->name('stages.button.get');
+
+
+Route::get('tests', [TestController::class, 'test']);

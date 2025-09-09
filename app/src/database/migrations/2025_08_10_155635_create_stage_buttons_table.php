@@ -10,15 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('stage_buttons', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 20);
-            $table->integer('play_time');
-            $table->integer('clear_time');
-            $table->integer('create_stage');
+            $table->integer('stage_id');
+            $table->integer('object_id');
             $table->timestamps();
-
-            $table->unique('name');
         });
     }
 
@@ -27,6 +23,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('stage_buttons');
     }
 };

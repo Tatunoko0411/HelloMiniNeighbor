@@ -12,8 +12,8 @@ class StageController extends Controller
 {
     public function show(Request $request)
     {
-        $stage = Stage::findOrFail($request->stage_id);
-        return response()->json(StageResource::make($stage));
+        $stage = Stage::where('user_id', '=', "{$request->user_id}")->get();
+        return response()->json($stage);
     }
 
     public function index(Request $request)

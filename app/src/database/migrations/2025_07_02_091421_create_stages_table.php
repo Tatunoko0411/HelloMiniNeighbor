@@ -12,7 +12,11 @@ return new class extends Migration {
     {
         Schema::create('stages', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
             $table->string('name', 255);
+            $table->integer('point');
+            $table->integer('play_time');
+            $table->integer('clear_time');
             $table->timestamps();
         });
     }
