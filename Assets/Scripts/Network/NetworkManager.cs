@@ -14,8 +14,8 @@ public class NetworkManager : MonoBehaviour
     // WebAPIの接続先を設定
 #if DEBUG
     // 開発環境で使用する値をセット
-   // const string API_BASE_URL = "http://localhost:8000/api/";
-     const string API_BASE_URL = "ge202402.japaneast.cloudapp.azure.com/api/";
+  //  const string API_BASE_URL = "http://localhost:8000/api/";
+    const string API_BASE_URL = "http://ge202402.japaneast.cloudapp.azure.com/api/";
 #else
     // 本番環境で使用する値をセット
     const string API_BASE_URL = "https://ca-test.whitedune-278699f7.japaneast.azurecontainerapps.io/api/";

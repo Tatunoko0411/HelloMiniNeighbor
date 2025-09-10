@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] UIObject StartButton;
     [SerializeField] UIObject StopButton;
 
+    [SerializeField]GameObject ObjectButtons;
 
     [SerializeField] UIObject DeleteBox;
 
@@ -222,5 +223,17 @@ public class UIManager : MonoBehaviour
         }
     }
 
- 
+    //オブジェクト生成系ボタンの表示切り替え
+    public void changeObjectButtons()
+    {
+        if (ObjectButtons.activeSelf)
+        {
+            ObjectButtons.SetActive(false);
+        }
+        else
+        {
+            ObjectButtons.SetActive(true);
+        }
+    }
+
 }

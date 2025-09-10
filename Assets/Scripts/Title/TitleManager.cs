@@ -31,7 +31,7 @@ public class TitleManager : MonoBehaviour
     void Start()
     {
         bool isSuccess = NetworkManager.Instance.LoadUserData();
-        if (false)
+        if (isSuccess)
         {
             Debug.Log("データがありました");
            InitDate();
@@ -47,6 +47,7 @@ public class TitleManager : MonoBehaviour
              
                     Debug.Log("登録完了");
                     Debug.Log(NetworkManager.Instance.ApiToken);
+                    InitDate();
                 }
                 else
                 {
@@ -62,7 +63,7 @@ public class TitleManager : MonoBehaviour
         if (isSuccess)
         {
             Debug.Log("データがありました");
-            Debug.Log(StageManager.NormalstagesObjects[0].Count);
+           // Debug.Log(StageManager.NormalstagesObjects[0].Count);
             isSave = true;
         }
         else

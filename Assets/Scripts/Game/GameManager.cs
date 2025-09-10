@@ -89,4 +89,9 @@ public class GameManager : MonoBehaviour
     {
         Initiate.Fade("CustomStageSelectScene", Color.black, 1.0f);
     }
+
+    public void MoveTitle()
+    {
+        Initiate.Fade("TitleScene", Color.black, 1.0f);
+    }
 }
