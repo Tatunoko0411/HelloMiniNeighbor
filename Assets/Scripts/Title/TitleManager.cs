@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static UnityEditor.PlayerSettings;
 
 public class TitleManager : MonoBehaviour
 {
@@ -27,9 +28,13 @@ public class TitleManager : MonoBehaviour
     int btnCnt = 0;
     int ObjCnt = 0;
 
+    AudioSource audioSource;
+    [SerializeField] AudioClip ClickSE;
+
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         bool isSuccess = NetworkManager.Instance.LoadUserData();
         if (isSuccess)
         {
@@ -68,20 +73,18 @@ public class TitleManager : MonoBehaviour
         }
         else
         {
-            StartCoroutine(NetworkManager.Instance.GetNormalStage(
+            StartCoroutine(NetworkManager.Instance.GetNormalStages(
                result =>
                {                          //ìoò^èIóπå„ÇÃèàóù
                    if (result == true)
                    {
                        StartGetNStage = true;
                        Debug.Log(StageManager.NormalStageIDs.Count );
-                       foreach(int id in StageManager.NormalStageIDs)
-                       {
-                           
+                     
 
-                           GetNormalStageBtns(id);
-                           GetNormalStageObjs(id);
-                       }
+                           GetNormalStageBtns(StageManager.NormalStageIDs);
+                           GetNormalStageObjs(StageManager.NormalStageIDs);
+                       
 
 
                        Debug.Log("ìoò^äÆóπ");
@@ -105,6 +108,7 @@ public class TitleManager : MonoBehaviour
         {
             isTouched = true;
             TitleStart.SetActive(false);
+            playClickSE();
         }
 
         if (btnCnt >= StageManager.NormalStageIDs.Count
@@ -146,9 +150,9 @@ public class TitleManager : MonoBehaviour
         }));
     }
 
-    void GetNormalStageObjs(int stageId)
+    void GetNormalStageObjs(List<int> Ids)
     {
-        StartCoroutine(NetworkManager.Instance.GetNormelStageObjects(stageId,
+        StartCoroutine(NetworkManager.Instance.GetNormelStageObjects(Ids,
                result =>
                {                          //ìoò^èIóπå„ÇÃèàóù
                    if (result == true)
@@ -165,9 +169,9 @@ public class TitleManager : MonoBehaviour
                }));
     }
 
-    void GetNormalStageBtns(int stageId)
+    void GetNormalStageBtns(List<int> Ids)
     {
-        StartCoroutine(NetworkManager.Instance.GetNormalStageButtons(stageId,
+        StartCoroutine(NetworkManager.Instance.GetNormalStageButtons(Ids,
                result =>
                {                          //ìoò^èIóπå„ÇÃèàóù
                    if (result == true)
@@ -220,4 +224,11 @@ public class TitleManager : MonoBehaviour
     {
         Initiate.Fade("StageCreateScene", Color.black, 1.0f);
     }
+
+
+    public void playClickSE()
+    {
+        audioSource.PlayOneShot(ClickSE);
+    }
 }
+

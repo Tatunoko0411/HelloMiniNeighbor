@@ -40,6 +40,8 @@ public class PlayerManager : MonoBehaviour
    public DIRECTION_TYPE direction;
    public float speed;
 
+   public bool isDorp;//óéâ∫èÛë‘
+
     Animator animator;
     // Start is called before the first frame update
     void Start()
@@ -50,11 +52,17 @@ public class PlayerManager : MonoBehaviour
         isDead = false;
         capsuleCollider2D = GetComponent<CapsuleCollider2D>();
         animator = GetComponent<Animator>();
+        animator.SetBool("isGround", true);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(rb.bodyType == RigidbodyType2D.Static)
+        {
+            transform.position = StartPos;
+        }
+
         animator.SetFloat("Velocity",Math.Abs( rb.velocity.x));
 
         if (createMode)
@@ -81,6 +89,9 @@ public class PlayerManager : MonoBehaviour
 
             }
         }
+
+
+
         move();
   
 
@@ -91,6 +102,8 @@ public class PlayerManager : MonoBehaviour
 
         if (isGlound())
         {
+            isDorp = false;
+
            animator.SetBool("isGround", true);
 
             if (direction == DIRECTION_TYPE.RIGHT)
@@ -110,6 +123,9 @@ public class PlayerManager : MonoBehaviour
         else
         {
             animator.SetBool("isGround", false);
+
+            if(isDorp)
+            { return; }
 
             if (direction == DIRECTION_TYPE.RIGHT)
             {
@@ -132,31 +148,41 @@ public class PlayerManager : MonoBehaviour
 
     public bool isWall()
     {
-        Vector3 BasePos = new Vector3(transform.position.x - 0.5f,transform.position.y,transform.position.z);
-        Vector3 UpStartpoint = BasePos - Vector3.up * 0.1f;
-        Vector3 DownStartpoint = BasePos + Vector3.down * 0.1f;
+        Vector3 BasePos = new Vector3(transform.position.x - 0.7f,transform.position.y,transform.position.z);
+        Vector3 UpStartpoint = BasePos + Vector3.up * 0.8f;
+        Vector3 DownStartpoint = BasePos + Vector3.down * 0.8f;
  
 
         if (direction == DIRECTION_TYPE.LEFT)
         {
             BasePos = new Vector3(transform.position.x - 0.7f, transform.position.y, transform.position.z);
-            UpStartpoint = BasePos + Vector3.up * 0.1f;
-            DownStartpoint = BasePos + Vector3.down * 0.1f;
+             UpStartpoint = BasePos + Vector3.up * 0.8f;
+             DownStartpoint = BasePos + Vector3.down * 0.8f;
 
         }
         else if(direction == DIRECTION_TYPE.RIGHT)
         {
             BasePos = new Vector3(transform.position.x + 0.7f, transform.position.y, transform.position.z);
-            UpStartpoint = BasePos + Vector3.up * 0.1f;
-            DownStartpoint = BasePos + Vector3.down * 0.1f;
-  
+            UpStartpoint = BasePos + Vector3.up * 0.8f;
+            DownStartpoint = BasePos + Vector3.down * 0.8f;
+
         }
 
-        Debug.DrawLine(UpStartpoint, BasePos);
-        Debug.DrawLine(DownStartpoint, BasePos);
+        Debug.DrawLine(UpStartpoint, DownStartpoint);
 
-        return Physics2D.Linecast(UpStartpoint, BasePos, blockLayer)
-            || Physics2D.Linecast(DownStartpoint, BasePos, blockLayer);
+        if(!Physics2D.Linecast(UpStartpoint, DownStartpoint, blockLayer))
+        {
+            return false;
+        }
+
+        GameObject gameObject = Physics2D.Linecast(UpStartpoint, DownStartpoint, blockLayer).collider.gameObject;
+
+        if (gameObject.tag == "Book")
+        {
+            return true;
+        }
+
+        return false;
     }
 
     private bool isGlound()
@@ -169,6 +195,8 @@ public class PlayerManager : MonoBehaviour
 
         Debug.DrawLine(UpStartpoint, EndPos);
         Debug.DrawLine(DownStartpoint, EndPos);
+
+      
 
         return Physics2D.Linecast(UpStartpoint, EndPos, blockLayer)
             || Physics2D.Linecast(DownStartpoint, EndPos, blockLayer);
@@ -237,15 +265,19 @@ public class PlayerManager : MonoBehaviour
     {
         if(collision.gameObject.tag == "goal")
         {
-            Debug.Log("ÉSÅ[Éã");
-            gameManager.isClear = true;
-            rb.velocity = Vector3.zero; 
-            enabled = false;
+            if (!isDead)
+            {
+                Debug.Log("ÉSÅ[Éã");
+                gameManager.isClear = true;
+                rb.velocity = Vector3.zero;
+                enabled = false;
+            }
         }
 
         if(collision.gameObject.tag == "water")
         {
             rb.velocity = Vector3.zero;
+            isDorp = true;
         }
 
 
@@ -266,7 +298,7 @@ public class PlayerManager : MonoBehaviour
 
         if (collision.gameObject.tag == "Bubble")
         {//ñAÇÃíÜÇ…Ç¢ÇÈéûÇÕïΩçsà⁄ìÆÇÃÇ›
-            rb.velocity = new Vector2(rb.velocity.x, 0);
+            rb.velocity = new Vector2(rb.velocity.x, 0.1f);
         }
     }
 

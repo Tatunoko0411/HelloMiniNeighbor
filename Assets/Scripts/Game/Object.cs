@@ -29,6 +29,7 @@ public class Object : MonoBehaviour
     public bool CreateMode = false;
     public int StageObjectID;
 
+    SEManager seManager;
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +43,7 @@ public class Object : MonoBehaviour
         }
        
             gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        seManager = GameObject.Find("SEManager").GetComponent<SEManager>();
         
 
 
@@ -62,11 +64,17 @@ public class Object : MonoBehaviour
 
         if (!Input.GetMouseButton(0))
         {
+
+            if (isDrag)
+            {
+                seManager.playPutSE();
+            }
             isDrag = false;
             rb.bodyType = RigidbodyType2D.Static;
             if (!CreateMode)
             {//ドラッグ状態の解除
                 gameManager.Draging = false;
+                
             }
             else if (CreateMode)
             {
@@ -90,7 +98,8 @@ public class Object : MonoBehaviour
 
                 //ドラッグ状態の解除
                 stageCreateManager.Draging = false;
-                
+              
+
             }
         }
 
@@ -145,7 +154,7 @@ public class Object : MonoBehaviour
         }
         else
         {
-            if(isDelete && !isFixed &&id <= 999)
+            if(isDelete && !isFixed &&id < 999)
             {//常設オブジェクトは削除されない
 
                 //オブジェクト削除
@@ -170,25 +179,28 @@ public class Object : MonoBehaviour
 
             if(CreateMode)
             {
-                if(SetButtonID>=0)
-                {//ボタンにオブジェクト情報を追加
-                    stageCreateManager.ButtonList[SetButtonID].PopObjectPrefab
-                        = stageCreateManager.ObjectList[id].GetComponent<Object>();
+                if (id < 999)
+                {
+                    if (SetButtonID >= 0)
+                    {//ボタンにオブジェクト情報を追加
+                        stageCreateManager.ButtonList[SetButtonID].PopObjectPrefab
+                            = stageCreateManager.ObjectList[id].GetComponent<Object>();
 
-                    stageCreateManager.ButtonList[SetButtonID].ChangeSprite();
+                        stageCreateManager.ButtonList[SetButtonID].ChangeSprite();
 
 
 
-                    stageCreateManager.ButtonObjIDList[SetButtonID] = stageCreateManager.ObjectList[id].GetComponent<Object>().id;
+                        stageCreateManager.ButtonObjIDList[SetButtonID] = stageCreateManager.ObjectList[id].GetComponent<Object>().id;
 
-                    //オブジェクト情報削除
-                    Destroy(this.gameObject);
+                        //オブジェクト情報削除
+                        Destroy(this.gameObject);
 
-                    //if (StageObjectID != 0)
-                    //{//登録されていた情報を削除
-                    //    stageCreateManager.StageObjectList.Remove(stageCreateManager.StageObjectList[StageObjectID  - 1]);
-                    //    Debug.Log("オブジェクトが削除されました");
-                    //}
+                        //if (StageObjectID != 0)
+                        //{//登録されていた情報を削除
+                        //    stageCreateManager.StageObjectList.Remove(stageCreateManager.StageObjectList[StageObjectID  - 1]);
+                        //    Debug.Log("オブジェクトが削除されました");
+                        //}
+                    }
                 }
             }
 
@@ -218,6 +230,11 @@ public class Object : MonoBehaviour
 
     private void OnMouseUp()
     {
+
+        if (isDrag)
+        {
+            seManager.playPutSE();
+        }
         isDrag = false;
         rb.bodyType = RigidbodyType2D.Static;
 
@@ -225,6 +242,7 @@ public class Object : MonoBehaviour
         if (!CreateMode)
         {
             gameManager.Draging = false;
+            
         }
         else
         {

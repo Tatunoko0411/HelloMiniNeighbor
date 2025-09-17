@@ -62,6 +62,7 @@ public class CustomStageSelectManager : MonoBehaviour
             content.title.text = date.Name;
             content.point = date.Point;
             
+
         }
     }
 

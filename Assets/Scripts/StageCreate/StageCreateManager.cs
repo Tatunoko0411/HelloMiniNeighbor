@@ -337,6 +337,11 @@ result =>
 
     public void ChangePoint()
     {
+        if(inputPoint.text == "")
+        {
+            StartPoint = 0;
+            return;
+        }
         StartPoint = int.Parse(inputPoint.text);
         Debug.Log(StartPoint);
     }

@@ -9,13 +9,14 @@ public class CustomStageContent : MonoBehaviour
     public int point;
     [SerializeField] public Text title;
     [SerializeField] public Text playerName;
-
+    AudioSource audioSource;
+    [SerializeField] AudioClip SE;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -27,6 +28,7 @@ public class CustomStageContent : MonoBehaviour
     //ステージ遷移
     public void loadStage()
     {
+        audioSource.PlayOneShot(SE);
         CustomStageGameManager.StageId = stageId;
         CustomStageGameManager.StartPoint = point;
         Initiate.Fade("CustomStageGameScene", Color.black, 1.0f);

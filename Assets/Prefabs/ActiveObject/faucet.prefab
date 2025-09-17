@@ -134,7 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DropPos: {fileID: 6474875801471247098}
   DropObj: {fileID: 3860023224919646020, guid: 4f30ee014de14ae4f822099c01de2e33, type: 3}
-  waitTime: 2
+  waitTime: 1.2
   gameManager: {fileID: 0}
 --- !u!114 &-7396810202538157663
 MonoBehaviour:

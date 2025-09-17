@@ -48,7 +48,7 @@ public class Bee : MonoBehaviour
             {
                 if (!isMove)
                 {
-                    startPosition = transform.position;
+             
                     direction = DIRECTION_TYPE.TOP;
                     isMove = true;
                     Move();
@@ -59,6 +59,7 @@ public class Bee : MonoBehaviour
             {
                 if (isMove)
                 {
+                    transform.position = startPosition;
                     direction = DIRECTION_TYPE.STOP;
                     isMove = false;
                 }
@@ -73,12 +74,12 @@ public class Bee : MonoBehaviour
         float goalY = 0.0f; // 目的地点のy座標
         if (direction == DIRECTION_TYPE.TOP)
         {
-            goalY = 0.5f;
+            goalY = 1.5f;
             direction = DIRECTION_TYPE.BOTTOM; // 方向を切り替え
         }
         else if (direction == DIRECTION_TYPE.BOTTOM)
         {
-            goalY = -0.5f;
+            goalY = -1.5f;
             direction = DIRECTION_TYPE.TOP; // 方向を切り替え
         }
 
@@ -89,4 +90,6 @@ public class Bee : MonoBehaviour
         this.transform.DOMove(goalPosition, 3.0f).SetEase(Ease.InOutQuad).OnComplete(Move);
 
     }
+
+
 }
