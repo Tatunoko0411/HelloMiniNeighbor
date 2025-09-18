@@ -43,6 +43,7 @@ public class PlayerManager : MonoBehaviour
    public bool isDorp;//óéâ∫èÛë‘
 
     Animator animator;
+   [SerializeField] SEManager seManager;    
     // Start is called before the first frame update
     void Start()
     {
@@ -208,6 +209,7 @@ public class PlayerManager : MonoBehaviour
         rb.AddForce(Vector3.up * JumpPower);
 
         rb.AddForce(new Vector3(speed*JumpSpeedLate, 0f,0));
+        seManager.playJumpSE();
     }
 
     public void StartPlayer()

@@ -1497,6 +1497,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClickSE: {fileID: 8300000, guid: 492aa40fe3bbbed42a6ff309cd418d24, type: 3}
   PutSE: {fileID: 8300000, guid: f65c4bd595c373f41a6e6b5339d742ff, type: 3}
+  JumpSE: {fileID: 8300000, guid: 317b62f5fb618fc4f926a8893d736290, type: 3}
 --- !u!4 &321121496
 Transform:
   m_ObjectHideFlags: 0
@@ -4690,7 +4691,7 @@ RectTransform:
   m_GameObject: {fileID: 1795251079}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.9799157, y: -1.7324263, z: 1.9799157}
+  m_LocalScale: {x: 1.0115786, y: -0.88513124, z: 1.0115786}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1088101760}
@@ -4722,11 +4723,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 120
+    m_FontSize: 300
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 1
-    m_MaxSize: 120
+    m_MaxSize: 300
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -5896,6 +5897,10 @@ PrefabInstance:
       propertyPath: junpSpeed
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 8088791736939622921, guid: 627edd75fca9eb94eae6d7d9c7cb30e5, type: 3}
+      propertyPath: seManager
+      value: 
+      objectReference: {fileID: 321121495}
     - target: {fileID: 8088791736939622921, guid: 627edd75fca9eb94eae6d7d9c7cb30e5, type: 3}
       propertyPath: gameManager
       value: 

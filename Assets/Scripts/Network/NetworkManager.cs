@@ -18,7 +18,7 @@ public class NetworkManager : MonoBehaviour
     const string API_BASE_URL = "http://ge202402.japaneast.cloudapp.azure.com/api/";
 #else
     // 本番環境で使用する値をセット
-    const string API_BASE_URL = "https://ca-test.whitedune-278699f7.japaneast.azurecontainerapps.io/api/";
+    const string API_BASE_URL = "http://ge202402.japaneast.cloudapp.azure.com/api/";
 #endif
 
     private int userID; // 自分のユーザーID

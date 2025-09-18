@@ -7,6 +7,7 @@ public class SEManager : MonoBehaviour
     AudioSource audioSource;
     [SerializeField] AudioClip ClickSE;
     [SerializeField] AudioClip PutSE;
+    [SerializeField] AudioClip JumpSE;
 
     // Start is called before the first frame update
     void Start()
@@ -28,5 +29,10 @@ public class SEManager : MonoBehaviour
     public void playPutSE()
     {
         audioSource.PlayOneShot(PutSE);
+    }
+
+    public void playJumpSE()
+    {
+        audioSource.PlayOneShot(JumpSE);
     }
 }

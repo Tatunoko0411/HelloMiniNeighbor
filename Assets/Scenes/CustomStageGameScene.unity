@@ -1939,6 +1939,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClickSE: {fileID: 8300000, guid: 492aa40fe3bbbed42a6ff309cd418d24, type: 3}
   PutSE: {fileID: 8300000, guid: f65c4bd595c373f41a6e6b5339d742ff, type: 3}
+  JumpSE: {fileID: 8300000, guid: 317b62f5fb618fc4f926a8893d736290, type: 3}
 --- !u!4 &1086915285
 Transform:
   m_ObjectHideFlags: 0
@@ -2695,6 +2696,10 @@ PrefabInstance:
       propertyPath: junpSpeed
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 8088791736939622921, guid: 627edd75fca9eb94eae6d7d9c7cb30e5, type: 3}
+      propertyPath: seManager
+      value: 
+      objectReference: {fileID: 1086915284}
     - target: {fileID: 8088791736939622921, guid: 627edd75fca9eb94eae6d7d9c7cb30e5, type: 3}
       propertyPath: gameManager
       value: 

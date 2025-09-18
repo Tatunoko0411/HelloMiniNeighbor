@@ -2348,6 +2348,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClickSE: {fileID: 8300000, guid: 492aa40fe3bbbed42a6ff309cd418d24, type: 3}
   PutSE: {fileID: 8300000, guid: f65c4bd595c373f41a6e6b5339d742ff, type: 3}
+  JumpSE: {fileID: 8300000, guid: 317b62f5fb618fc4f926a8893d736290, type: 3}
 --- !u!4 &574317521
 Transform:
   m_ObjectHideFlags: 0
@@ -5142,8 +5143,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1336483f6d132f24da222358cbbfed0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SetPos: {x: -7.5, y: 4.5}
-  HidePos: {x: -7.5, y: 7}
+  SetPos: {x: -7, y: 4.5}
+  HidePos: {x: -7, y: 7}
 --- !u!1 &1419597024
 GameObject:
   m_ObjectHideFlags: 0
@@ -5936,8 +5937,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1336483f6d132f24da222358cbbfed0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SetPos: {x: 7.5, y: 4.5}
-  HidePos: {x: 7.5, y: 6.5}
+  SetPos: {x: 7, y: 4.5}
+  HidePos: {x: 7, y: 6.5}
 --- !u!1 &1609588616
 GameObject:
   m_ObjectHideFlags: 0
@@ -8244,8 +8245,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1336483f6d132f24da222358cbbfed0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SetPos: {x: -7.5, y: 3.5}
-  HidePos: {x: -7.5, y: 6.5}
+  SetPos: {x: -7, y: 3.5}
+  HidePos: {x: -7, y: 6.5}
 --- !u!1 &2098859681
 GameObject:
   m_ObjectHideFlags: 0
@@ -9789,6 +9790,7 @@ MonoBehaviour:
   direction: 0
   speed: 20
   isDorp: 0
+  seManager: {fileID: 574317520}
 --- !u!212 &3129130249650006572
 SpriteRenderer:
   m_ObjectHideFlags: 0
