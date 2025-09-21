@@ -12,12 +12,17 @@ public class TitleManager : MonoBehaviour
 
     string Name;
     int userId;
+   
 
     [SerializeField]InputField nameField;
     [SerializeField]Text IDText;
 
     [SerializeField]GameObject UserUI;
     [SerializeField] GameObject MainUI;
+
+    [SerializeField] Text PlayText;
+    [SerializeField] Text ClearText;
+    [SerializeField] Text CreateText;
 
     [SerializeField]GameObject TitleStart;
     bool isTouched;
@@ -131,6 +136,10 @@ public class TitleManager : MonoBehaviour
         userId = NetworkManager.Instance.UserID;
         nameField.text = Name;
         IDText.text = "ID:" + userId;
+
+        PlayText.text = $"プレイ回数:{NetworkManager.Instance.PlayTime}";
+        ClearText.text = $"クリア回数:{NetworkManager.Instance.ClearTime}";
+        CreateText.text = $"作ったステージ数:{NetworkManager.Instance.StageCreate}";
     }
 
     public void UpdateName()

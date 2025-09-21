@@ -24,6 +24,9 @@ public class NetworkManager : MonoBehaviour
     private int userID; // 自分のユーザーID
     private string userName; // 入力される想定の自分のユーザー名
     private string apiToken;  //APIトークン
+    private int playTime;  //プレイ回数
+    private int clearTime;  //クリア回数
+    private int stageCreate;  //ステージ制作数
 
    
 
@@ -50,6 +53,28 @@ public class NetworkManager : MonoBehaviour
         get
         {
             return this.apiToken;
+        }
+    }
+
+    public int PlayTime
+    {
+        get
+        {
+            return this.playTime;
+        }
+    }
+    public int ClearTime
+    {
+        get
+        {
+            return this.clearTime;
+        }
+    }
+    public int StageCreate
+    {
+        get
+        {
+            return this.stageCreate;
         }
     }
 
@@ -99,6 +124,9 @@ public class NetworkManager : MonoBehaviour
             this.userName = name;
             this.apiToken = response.APIToken;
             this.userID = response.UserID;
+            this.playTime = 0;
+            this.clearTime = 0;
+            this.stageCreate = 0;
 
             SaveUserData();
             isSuccess = true;
@@ -157,12 +185,17 @@ public class NetworkManager : MonoBehaviour
         saveData.UserName = this.userName;
         saveData.UserID = this.userID;
         saveData.apiToken = this.apiToken;
+        saveData.PlayTime = this.playTime;
+        saveData.ClearTime = this.clearTime;
+        saveData.StageCreate = this.stageCreate;
         string json = JsonConvert.SerializeObject(saveData);
         var writer =
                 new StreamWriter(Application.persistentDataPath + "/saveData.json");
         writer.Write(json);
         writer.Flush();
         writer.Close();
+
+        Debug.Log(this.userName);
     }
 
     public IEnumerator GetNormalStages( Action<bool> result)
@@ -211,6 +244,9 @@ public class NetworkManager : MonoBehaviour
         this.userID = saveData.UserID;
         this.userName = saveData.UserName;
         this.apiToken = saveData.apiToken;
+        this.playTime = saveData.PlayTime;
+        this.clearTime = saveData.ClearTime;
+        this.stageCreate = saveData.StageCreate;
         return true;
     }
 
@@ -244,6 +280,39 @@ public class NetworkManager : MonoBehaviour
         result?.Invoke(isSuccess); //ここで呼び出し元のresult処理を呼び出す
     }
 
+    public IEnumerator UpdateUserCount(int play,int clear,int create, Action<bool> result)
+    {
+        //サーバーに送信するオブジェクトを作成
+        UpdateUserCountReqest requestData = new UpdateUserCountReqest();
+        requestData.playTime = play;
+        requestData.clearTime = clear;
+        requestData.createStagge = create;
+        //サーバーに送信するオブジェクトをJSONに変換
+        string json = JsonConvert.SerializeObject(requestData);
+        //送信
+        UnityWebRequest request = UnityWebRequest.Post(
+                    API_BASE_URL + "users/update/count", json, "application/json");
+        request.SetRequestHeader("Authorization", "Bearer " + this.apiToken);
+
+
+        yield return request.SendWebRequest();
+
+        bool isSuccess = false;
+        if (request.result == UnityWebRequest.Result.Success
+         && request.responseCode == 200)
+        {
+
+            this.playTime += play;
+            this.clearTime += clear;
+            this.stageCreate += create;
+            // 通信が成功した場合、ファイルに更新したユーザー名を保存
+            SaveUserData();
+
+            isSuccess = true;
+        }
+
+        result?.Invoke(isSuccess); //ここで呼び出し元のresult処理を呼び出す
+    }
 
     //ステージオブジェクト登録
     public IEnumerator RegistStageObject(StageObject stageObject,int stageID, Action<bool> result)

@@ -223,6 +223,7 @@ result =>
         StoreButtons();
         StorePlayerPos();
         StoreGoalPos();
+        StageCreateCount();
     }
     else
     {
@@ -370,6 +371,23 @@ result =>
        Debug.Log("登録が正常に終了しませんでした。");
 
    }
+}));
+    }
+
+    public void StageCreateCount()
+    {
+        StartCoroutine(NetworkManager.Instance.UpdateUserCount(0,0,1,
+result =>
+{                          //登録終了後の処理
+    if (result == true)
+    {
+        Debug.Log("更新完了。");
+    }
+    else
+    {
+        Debug.Log("登録が正常に終了しませんでした。");
+
+    }
 }));
     }
 }

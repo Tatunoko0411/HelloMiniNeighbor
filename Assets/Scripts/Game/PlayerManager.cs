@@ -54,6 +54,8 @@ public class PlayerManager : MonoBehaviour
         capsuleCollider2D = GetComponent<CapsuleCollider2D>();
         animator = GetComponent<Animator>();
         animator.SetBool("isGround", true);
+
+        playCount();
     }
 
     // Update is called once per frame
@@ -262,6 +264,39 @@ public class PlayerManager : MonoBehaviour
         }
 
     }
+    public void playCount()
+    {
+        StartCoroutine(NetworkManager.Instance.UpdateUserCount(1, 0, 0,
+result =>
+{                          //“o˜^I—¹Œã‚Ìˆ—
+    if (result == true)
+    {
+        Debug.Log("XVŠ®—¹B");
+    }
+    else
+    {
+        Debug.Log("“o˜^‚ª³í‚ÉI—¹‚µ‚Ü‚¹‚ñ‚Å‚µ‚½B");
+
+    }
+}));
+    }
+
+    public void clearCount()
+    {
+        StartCoroutine(NetworkManager.Instance.UpdateUserCount(0, 1, 0,
+result =>
+{                          //“o˜^I—¹Œã‚Ìˆ—
+if (result == true)
+{
+    Debug.Log("XVŠ®—¹B");
+}
+else
+{
+    Debug.Log("“o˜^‚ª³í‚ÉI—¹‚µ‚Ü‚¹‚ñ‚Å‚µ‚½B");
+
+}
+}));
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -273,6 +308,7 @@ public class PlayerManager : MonoBehaviour
                 gameManager.isClear = true;
                 rb.velocity = Vector3.zero;
                 enabled = false;
+                clearCount();
             }
         }
 
