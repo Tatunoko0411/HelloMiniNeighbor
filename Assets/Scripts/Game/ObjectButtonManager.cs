@@ -21,6 +21,7 @@ public class ObjectButtonManager : MonoBehaviour
     public Object PopObjectPrefab;
 
     public bool CreateMode;//クリエイトモードかどうか
+    public bool Tutorial;
 
 
   
@@ -36,7 +37,7 @@ public class ObjectButtonManager : MonoBehaviour
 
         }
 
-        if (CreateMode)
+        if (CreateMode||Tutorial)
         {
             SetEvent();
             
@@ -87,12 +88,16 @@ public class ObjectButtonManager : MonoBehaviour
             entry.callback.AddListener((eventDate) => {PopObject(PopObjectPrefab); gameManager.changePoint(-Cost); });
             eventTrigger.triggers.Add(entry);
         }
+        ChangeSprite();
     }
 
     public void ResetEvent()
     {
         eventTrigger = GetComponent<EventTrigger>();
         eventTrigger.triggers.Clear();
+        PopObjectPrefab = null;
+        image.sprite = null;
+        image.color = new Color(0, 0, 0, 0);
     }
 
     //オブジェクト生成

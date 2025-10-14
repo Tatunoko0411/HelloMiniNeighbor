@@ -106,25 +106,27 @@ public class PlayerManager : MonoBehaviour
         if (isGlound())
         {
             isDorp = false;
+            rb.constraints = RigidbodyConstraints2D.FreezePositionY;
 
            animator.SetBool("isGround", true);
 
             if (direction == DIRECTION_TYPE.RIGHT)
             {
-               rb.velocity = new Vector2 (groundSpeed,rb.velocity.y);
+               rb.velocity = new Vector2 (groundSpeed,0);
                 transform.localScale = new Vector3(0.27f, 0.27f, 0.27f);
                 
             }
             else if (direction == DIRECTION_TYPE.LEFT)
             {
-              
 
-                rb.velocity = new Vector2(-groundSpeed, rb.velocity.y);
+                rb.velocity = new Vector2(-groundSpeed,0);
                 transform.localScale = new Vector3(-0.27f, 0.27f, 0.27f);
+
             }
         }
         else
         {
+            rb.constraints = RigidbodyConstraints2D.None;
             animator.SetBool("isGround", false);
 
             if(isDorp)
@@ -208,6 +210,7 @@ public class PlayerManager : MonoBehaviour
     public void Jump()
     {
        rb.velocity = Vector3.zero;
+        transform.position = new Vector3(transform.position.x, transform.position.y+0.2f ,transform.position.z);
         rb.AddForce(Vector3.up * JumpPower);
 
         rb.AddForce(new Vector3(speed*JumpSpeedLate, 0f,0));

@@ -29,6 +29,7 @@ public class CustomStageContent : MonoBehaviour
     public void loadStage()
     {
         audioSource.PlayOneShot(SE);
+        //ステージ情報の設定
         CustomStageGameManager.StageId = stageId;
         CustomStageGameManager.StartPoint = point;
         Initiate.Fade("CustomStageGameScene", Color.black, 1.0f);

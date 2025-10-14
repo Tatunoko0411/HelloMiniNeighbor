@@ -117,37 +117,37 @@ public class Object : MonoBehaviour
                 0.1f );
 
             //各方向に当たり判定があれば移動制限をする
-            if(isRight())
-            {
-                if(transform.position.x < movePos.x)
-                {
-                    movePos.x = transform.position.x;
-                }
+            //if (isRight())
+            //{
+            //    if (transform.position.x < movePos.x)
+            //    {
+            //        movePos.x = transform.position.x;
+            //    }
 
-            }
-            if(isLeft())
-            {
-                if (transform.position.x > movePos.x)
-                {
-                    movePos.x = transform.position.x;
-                }
-            }
-            if(isUp())
-            {
-                if (transform.position.y < movePos.y)
-                {
-                    movePos.y = transform.position.y;
-                }
-            }
-            if(isDown())
-            {
-                if (transform.position.y > movePos.y)
-                {
-                    movePos.y = transform.position.y;
-                }
-            }
+            //}
+            //if (isLeft())
+            //{
+            //    if (transform.position.x > movePos.x)
+            //    {
+            //        movePos.x = transform.position.x;
+            //    }
+            //}
+            //if (isUp())
+            //{
+            //    if (transform.position.y < movePos.y)
+            //    {
+            //        movePos.y = transform.position.y;
+            //    }
+            //}
+            //if (isDown())
+            //{
+            //    if (transform.position.y > movePos.y)
+            //    {
+            //        movePos.y = transform.position.y;
+            //    }
+            //}
 
-       
+
 
             transform.position = movePos;
 
@@ -213,6 +213,19 @@ public class Object : MonoBehaviour
         {//常設オブジェクトまたは実行中は選択できない
             return;
         }
+
+        if (!CreateMode)
+        {
+            if (gameManager.Draging)
+            {
+                return;
+            }
+        }
+        else if (stageCreateManager.Draging)
+        {
+            return;
+        }
+
         isDrag = true;
         //ボディタイプの変更
         rb.bodyType = RigidbodyType2D.Dynamic;

@@ -109,22 +109,7 @@ public class StageManager : MonoBehaviour
 
     public void SetObject()
     {
-        //for (int i = 0; i < StageObjects.Count; i++)
-        //{
-        //    if (StageObjects[i].ObjectId >= 999)
-        //    { continue; }
 
-        //    GameObject SetObj =   Instantiate(ObjectList[StageObjects[i].ObjectId-1],
-        //        new Vector3(StageObjects[i].Xpos, StageObjects[i].Ypos),
-        //        ObjectList[StageObjects[i].ObjectId - 1].transform.rotation);
-
-        //  Object obj = SetObj.GetComponent<Object>();
-
-        //    obj.CreateMode = false;
-        //    obj.isFixed = true;
-           
-
-        //}
 
         GameManager gameManager = GameObject.FindAnyObjectByType<GameManager>();
 

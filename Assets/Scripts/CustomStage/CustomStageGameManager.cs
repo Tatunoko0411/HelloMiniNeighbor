@@ -93,7 +93,7 @@ public class CustomStageGameManager : MonoBehaviour
             }
 
             if(StageObjects[i].ObjectId > 100)
-            {
+            {//通常オブジェクト以外の登録は無視
                 continue ;
             }
 
@@ -122,7 +122,7 @@ public class CustomStageGameManager : MonoBehaviour
      }
      else
      {
-         Debug.Log("登録が正常に終了しませんでした。");
+    
 
      }
  }));
@@ -136,10 +136,7 @@ result =>
 {                          //登録終了後の処理
     if (result == true)
     {
-        foreach (int id in ButtonObjIDList)
-        {
-            Debug.Log($"{id}");
-        }
+
         SetButtons();
     }
     else

@@ -234,6 +234,11 @@ public class TitleManager : MonoBehaviour
         Initiate.Fade("StageCreateScene", Color.black, 1.0f);
     }
 
+    public void MoveTutorial()
+    {
+        Initiate.Fade("TutorialScene", Color.black, 1.0f);
+    }
+
 
     public void playClickSE()
     {

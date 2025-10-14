@@ -102,7 +102,10 @@ public class StageCreateManager : MonoBehaviour
         //ボタンにオブジェクトを追加
         foreach (int Id in ButtonObjIDList)
         {
-           stageManager.ButtonObjIDList.Add(Id);
+            if (Id >= 0)
+            {
+                stageManager.ButtonObjIDList.Add(Id);
+            }
         }
 
         DeleteObjects();
@@ -136,7 +139,9 @@ public class StageCreateManager : MonoBehaviour
 
     public void BackStageCreate()
     {
- 
+
+        stageManager.ResetButtons();
+       
 
         //試遊画面のUIに切り替え
         CreateObject.SetActive(true);
@@ -145,6 +150,7 @@ public class StageCreateManager : MonoBehaviour
         //プレイヤーの設定変更
         gameManager.playerManager.createMode = true;
         gameManager.playerManager.InitPlayer();
+        gameManager.isStart = false;
 
         //オブジェクトを操作可能にする
         RemoveFixed();
