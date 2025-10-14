@@ -914,7 +914,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u51FA\u3059\u305F\u3081\u306B\u306F\u30DD\u30A4\u30F3\u30C8\n\u304C\u5FC5\u8981\u3060\u3088"
+  m_Text: "\u51FA\u3059\u305F\u3081\u306B\u306F\u30C9\u30F3\u30B0\u30EA\n\u304C\u5FC5\u8981\u3060\u3088"
 --- !u!222 &547484333
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2538,7 +2538,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &911857704
 RectTransform:
   m_ObjectHideFlags: 0
