@@ -72,6 +72,10 @@ public class TutorialManager : MonoBehaviour
             LimField.SetActive(false);
             return;
         }
+        else
+        {
+            LimField.SetActive(true);
+        }
 
         tutorialObjcts[count].SetActive(true);
     }

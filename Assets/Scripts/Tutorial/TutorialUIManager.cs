@@ -14,10 +14,10 @@ public class TutorialUIManager : MonoBehaviour
     [SerializeField] GameObject ObjectButtons;
 
 
-    float ObjBtnHidePosY = -7f;
-    float ObjBtnShowPosY = -3f;
+    float ObjBtnHidePosY = -200f;
+    float ObjBtnShowPosY = 200f;
 
-    float moveSpeed = 0.2f;
+    float moveSpeed = 10f;
 
     public bool isCustom = false;
 

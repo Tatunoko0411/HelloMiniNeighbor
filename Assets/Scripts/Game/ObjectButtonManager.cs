@@ -140,6 +140,15 @@ public class ObjectButtonManager : MonoBehaviour
         image.sprite = objSprites[PopObjectPrefab.id];
         image.color = new Color(1, 1, 1, 1);
         image.SetNativeSize();
+
+        if(PopObjectPrefab.id == 0)
+        {
+            image.gameObject.transform.Rotate(new Vector3(0, 0, 90));
+        }
+        else
+        {
+            image.gameObject.transform.rotation = Quaternion.identity;
+        }
     }
 
     public void RemoveObject()
