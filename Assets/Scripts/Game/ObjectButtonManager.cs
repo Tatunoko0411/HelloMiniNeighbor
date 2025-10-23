@@ -143,7 +143,7 @@ public class ObjectButtonManager : MonoBehaviour
 
         if(PopObjectPrefab.id == 0)
         {
-            image.gameObject.transform.Rotate(new Vector3(0, 0, 90));
+            image.rectTransform.rotation = Quaternion.Euler(0, 0, 90);
         }
         else
         {
