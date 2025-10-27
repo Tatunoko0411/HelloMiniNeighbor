@@ -114,7 +114,7 @@ public class Object : MonoBehaviour
             Vector2 movePos = Vector2.MoveTowards(
                 transform.position,
                 worldPos,
-                0.1f );
+                0.8f );
 
             //Še•ûŒü‚É“–‚½‚è”»’è‚ª‚ ‚ê‚ÎˆÚ“®§ŒÀ‚ğ‚·‚é
             //if (isRight())

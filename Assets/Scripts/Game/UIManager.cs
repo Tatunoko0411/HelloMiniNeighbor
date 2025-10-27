@@ -24,7 +24,7 @@ public class UIManager : MonoBehaviour
     float ObjBtnHidePosY = -7f;
     float ObjBtnShowPosY = -4f;
 
-    float moveSpeed = 0.2f;
+    float moveSpeed = 0.8f;
 
     public bool isCustom = false;
 
