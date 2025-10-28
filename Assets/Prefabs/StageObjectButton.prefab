@@ -320,6 +320,7 @@ MonoBehaviour:
   PopObjectPrefab: {fileID: 0}
   CreateMode: 0
   Tutorial: 0
+  pointBaseText: {fileID: 0}
 --- !u!1 &4401628898785629764
 GameObject:
   m_ObjectHideFlags: 0
@@ -506,7 +507,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 2213.6033, y: 19.47432}
-  m_SizeDelta: {x: 1000, y: 6}
+  m_SizeDelta: {x: 1000, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4582068018149251101
 CanvasRenderer:

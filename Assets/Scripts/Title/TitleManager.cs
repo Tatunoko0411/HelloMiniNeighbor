@@ -1,8 +1,9 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -27,9 +28,9 @@ public class TitleManager : MonoBehaviour
     [SerializeField]GameObject TitleStart;
     bool isTouched;
     bool isSave = false;
-    bool StartGetNStage = false;//ƒXƒe[ƒWî•ñæ“¾‚ğŠJn‚µ‚½‚©‚Ç‚¤‚©
+    bool StartGetNStage = false;//ã‚¹ãƒ†ãƒ¼ã‚¸æƒ…å ±å–å¾—ã‚’é–‹å§‹ã—ãŸã‹ã©ã†ã‹
 
-    //ƒRƒ‹[ƒ`ƒ“I—¹‘Ò‚¿—p‚Ì•Ï”
+    //ã‚³ãƒ«ãƒ¼ãƒãƒ³çµ‚äº†å¾…ã¡ç”¨ã®å¤‰æ•°
     int btnCnt = 0;
     int ObjCnt = 0;
 
@@ -43,25 +44,25 @@ public class TitleManager : MonoBehaviour
         bool isSuccess = NetworkManager.Instance.LoadUserData();
         if (isSuccess)
         {
-            Debug.Log("ƒf[ƒ^‚ª‚ ‚è‚Ü‚µ‚½");
+            Debug.Log("ãƒ‡ãƒ¼ã‚¿ãŒã‚ã‚Šã¾ã—ãŸ");
            InitDate();
         }
         else
         {
             StartCoroutine(NetworkManager.Instance.RegistUser(
-               Guid.NewGuid().ToString(),           //–¼‘O
+               Guid.NewGuid().ToString(),           //åå‰
             result =>
-            {                          //“o˜^I—¹Œã‚Ìˆ—
+            {                          //ç™»éŒ²çµ‚äº†å¾Œã®å‡¦ç†
                 if (result == true)
                 {
              
-                    Debug.Log("“o˜^Š®—¹");
+                    Debug.Log("ç™»éŒ²å®Œäº†");
                     Debug.Log(NetworkManager.Instance.ApiToken);
                     InitDate();
                 }
                 else
                 {
-                    Debug.Log("ƒ†[ƒU[“o˜^‚ª³í‚ÉI—¹‚µ‚Ü‚¹‚ñ‚Å‚µ‚½B");
+                    Debug.Log("ãƒ¦ãƒ¼ã‚¶ãƒ¼ç™»éŒ²ãŒæ­£å¸¸ã«çµ‚äº†ã—ã¾ã›ã‚“ã§ã—ãŸã€‚");
                     
                 }
             }));
@@ -72,7 +73,7 @@ public class TitleManager : MonoBehaviour
 
         if (isSuccess)
         {
-            Debug.Log("ƒf[ƒ^‚ª‚ ‚è‚Ü‚µ‚½");
+            Debug.Log("ãƒ‡ãƒ¼ã‚¿ãŒã‚ã‚Šã¾ã—ãŸ");
            // Debug.Log(StageManager.NormalstagesObjects[0].Count);
             isSave = true;
         }
@@ -80,7 +81,7 @@ public class TitleManager : MonoBehaviour
         {
             StartCoroutine(NetworkManager.Instance.GetNormalStages(
                result =>
-               {                          //“o˜^I—¹Œã‚Ìˆ—
+               {                          //ç™»éŒ²çµ‚äº†å¾Œã®å‡¦ç†
                    if (result == true)
                    {
                        StartGetNStage = true;
@@ -92,12 +93,12 @@ public class TitleManager : MonoBehaviour
                        
 
 
-                       Debug.Log("“o˜^Š®—¹");
+                       Debug.Log("ç™»éŒ²å®Œäº†");
                      
                    }
                    else
                    {
-                       Debug.Log("ƒ†[ƒU[“o˜^‚ª³í‚ÉI—¹‚µ‚Ü‚¹‚ñ‚Å‚µ‚½B");
+                       Debug.Log("ãƒ¦ãƒ¼ã‚¶ãƒ¼ç™»éŒ²ãŒæ­£å¸¸ã«çµ‚äº†ã—ã¾ã›ã‚“ã§ã—ãŸã€‚");
 
                    }
                }));
@@ -119,11 +120,11 @@ public class TitleManager : MonoBehaviour
         if (btnCnt >= StageManager.NormalStageIDs.Count
             && ObjCnt >= StageManager.NormalStageIDs.Count
             && StartGetNStage)
-        {//‘Sî•ñæ“¾Š®—¹
+        {//å…¨æƒ…å ±å–å¾—å®Œäº†
             if (!isSave)
             {
                 NetworkManager.Instance.SaveStage();
-                Debug.Log("ƒXƒe[ƒWî•ñ‚ğƒZ[ƒu‚µ‚Ü‚µ‚½");
+                Debug.Log("ã‚¹ãƒ†ãƒ¼ã‚¸æƒ…å ±ã‚’ã‚»ãƒ¼ãƒ–ã—ã¾ã—ãŸ");
                 isSave = true;
             }
            
@@ -135,25 +136,25 @@ public class TitleManager : MonoBehaviour
         Name = NetworkManager.Instance.UserName;
         userId = NetworkManager.Instance.UserID;
         nameField.text = Name;
-        IDText.text = "ID:" + userId;
-
-        PlayText.text = $"ƒvƒŒƒC‰ñ”:{NetworkManager.Instance.PlayTime}";
-        ClearText.text = $"ƒNƒŠƒA‰ñ”:{NetworkManager.Instance.ClearTime}";
-        CreateText.text = $"ì‚Á‚½ƒXƒe[ƒW”:{NetworkManager.Instance.StageCreate}";
+        IDText.text = $"{IDText.text}{userId}";
+        
+        PlayText.text = $"{PlayText.text}{NetworkManager.Instance.PlayTime}";
+        ClearText.text = $"{ClearText.text}{NetworkManager.Instance.ClearTime}";
+        CreateText.text = $"{CreateText.text}{NetworkManager.Instance.StageCreate}";
     }
 
     public void UpdateName()
     {
         StartCoroutine(NetworkManager.Instance.UpdateUser(nameField.text,
             result =>
-            {                          //“o˜^I—¹Œã‚Ìˆ—
+            {                          //ç™»éŒ²çµ‚äº†å¾Œã®å‡¦ç†
             if (result == true)
             {
-                Debug.Log("XVŠ®—¹");
+                Debug.Log("æ›´æ–°å®Œäº†");
             }
             else
             {
-                Debug.Log("³í‚ÉI—¹‚µ‚Ü‚¹‚ñ‚Å‚µ‚½B");
+                Debug.Log("æ­£å¸¸ã«çµ‚äº†ã—ã¾ã›ã‚“ã§ã—ãŸã€‚");
 
             }
         }));
@@ -163,16 +164,16 @@ public class TitleManager : MonoBehaviour
     {
         StartCoroutine(NetworkManager.Instance.GetNormelStageObjects(Ids,
                result =>
-               {                          //“o˜^I—¹Œã‚Ìˆ—
+               {                          //ç™»éŒ²çµ‚äº†å¾Œã®å‡¦ç†
                    if (result == true)
                    {
-                       Debug.Log("Š®—¹");
+                       Debug.Log("å®Œäº†");
                        ObjCnt++;
                        Debug.Log("objCnt:" + ObjCnt + "StageManager.NormalStageIDs.Count" + StageManager.NormalStageIDs.Count);
                    }
                    else
                    {
-                       Debug.Log("ƒ†[ƒU[“o˜^‚ª³í‚ÉI—¹‚µ‚Ü‚¹‚ñ‚Å‚µ‚½B");
+                       Debug.Log("ãƒ¦ãƒ¼ã‚¶ãƒ¼ç™»éŒ²ãŒæ­£å¸¸ã«çµ‚äº†ã—ã¾ã›ã‚“ã§ã—ãŸã€‚");
 
                    }
                }));
@@ -182,18 +183,18 @@ public class TitleManager : MonoBehaviour
     {
         StartCoroutine(NetworkManager.Instance.GetNormalStageButtons(Ids,
                result =>
-               {                          //“o˜^I—¹Œã‚Ìˆ—
+               {                          //ç™»éŒ²çµ‚äº†å¾Œã®å‡¦ç†
                    if (result == true)
                    {
             
-                       Debug.Log("Š®—¹");
+                       Debug.Log("å®Œäº†");
                        btnCnt++;
                        Debug.Log("btnCnt:" + btnCnt + "StageManager.NormalStageIDs.Count" + StageManager.NormalStageIDs.Count);
 
                    }
                    else
                    {
-                       Debug.Log("ƒ†[ƒU[“o˜^‚ª³í‚ÉI—¹‚µ‚Ü‚¹‚ñ‚Å‚µ‚½B");
+                       Debug.Log("ãƒ¦ãƒ¼ã‚¶ãƒ¼ç™»éŒ²ãŒæ­£å¸¸ã«çµ‚äº†ã—ã¾ã›ã‚“ã§ã—ãŸã€‚");
 
                    }
                }));

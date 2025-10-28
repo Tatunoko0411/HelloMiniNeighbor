@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -20,9 +20,10 @@ public class ObjectButtonManager : MonoBehaviour
 
     public Object PopObjectPrefab;
 
-    public bool CreateMode;//ƒNƒŠƒGƒCƒgƒ‚[ƒh‚©‚Ç‚¤‚©
+    public bool CreateMode;//ã‚¯ãƒªã‚¨ã‚¤ãƒˆãƒ¢ãƒ¼ãƒ‰ã‹ã©ã†ã‹
     public bool Tutorial;
 
+    [SerializeField] Text pointBaseText;
 
   
     // Start is called before the first frame update
@@ -68,7 +69,7 @@ public class ObjectButtonManager : MonoBehaviour
         }
     }
 
-    //ƒCƒxƒ“ƒgİ’è
+    //ã‚¤ãƒ™ãƒ³ãƒˆè¨­å®š
     public void SetEvent()
     {
         eventTrigger = GetComponent<EventTrigger>();
@@ -100,7 +101,7 @@ public class ObjectButtonManager : MonoBehaviour
         image.color = new Color(0, 0, 0, 0);
     }
 
-    //ƒIƒuƒWƒFƒNƒg¶¬
+    //ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ
     public void PopObject(Object obj)
     {
         if(obj == null)
@@ -168,6 +169,6 @@ public class ObjectButtonManager : MonoBehaviour
 
     public void SetPointText()
     {
-        CostText.text = "~" + Cost;
+        CostText.text = pointBaseText.text + Cost;
     }
 }
